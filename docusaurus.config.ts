@@ -95,7 +95,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/GetAdriAI/code-agent-docs',
           label: 'GitHub',
           position: 'right',
         },
