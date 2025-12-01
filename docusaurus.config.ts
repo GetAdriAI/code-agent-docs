@@ -71,7 +71,12 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/cover.jpg',
+    image: 'img/adri-social-card.jpg',
+    metadata: [
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'Adri AI' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+    ],
     colorMode: {
       respectPrefersColorScheme: true,
     },
