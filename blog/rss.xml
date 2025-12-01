@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Adri AI Blog</title>
+        <link>https://getadriai.github.io/code-agent-docs/blog</link>
+        <description>Adri AI Blog</description>
+        <lastBuildDate>Thu, 27 Nov 2025 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[Reddit Launch]]></title>
+            <link>https://getadriai.github.io/code-agent-docs/blog/research-agent/reddit-launch</link>
+            <guid>https://getadriai.github.io/code-agent-docs/blog/research-agent/reddit-launch</guid>
+            <pubDate>Thu, 27 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[We launched on Reddit and it crashed our app. 🫠]]></description>
+            <content:encoded><![CDATA[<p>We launched on Reddit and it crashed our app. 🫠</p>
+<p>I had assumed Reddit wasn't where our audience was. So I posted at midnight and went to sleep.</p>
+<p>My expectations were low. I had assumed that:</p>
+<ul>
+<li class="">Reddit isn't the place for enterprise AI</li>
+<li class="">The post wouldn't get visibility since AI is a contentious topic in SAP subreddits</li>
+</ul>
+<p>What actually happened was that we received so much traffic that our app was down for 3 hours. 😅</p>
+<p>What I learned:</p>
+<p>1️⃣ Make it ridiculously easy to try your software</p>
+<p>I didn't lead with fancy efficiency numbers. Just "here's what the tool does" with a link to try it for free, no login required.</p>
+<p>There's so much noise in the AI market right now. Even if you're an early entrant in your category, there's a good chance people have been burned by an AI promise before.</p>
+<p>If you add any friction, (say a signup button), they'll decide you probably won't work for them, and will readily move on with their day.</p>
+<p>The only thing that cuts through is letting them experience it themselves.</p>
+<p>2️⃣ Do staggered launches.
+Don't blow everything on one big moment. Spread it out.</p>
+<p>3️⃣ Launch everywhere.
+It's typical startup advice, but harder to actually practice than it sounds.</p>
+<p>Now, on to celebrating that we're the #1 post on r/ABAP today 🎉</p>]]></content:encoded>
+            <category>Research Agent</category>
+        </item>
+        <item>
+            <title><![CDATA[How does Claude's newest model perform in SAP ABAP development?]]></title>
+            <link>https://getadriai.github.io/code-agent-docs/blog/genai/claude-opus</link>
+            <guid>https://getadriai.github.io/code-agent-docs/blog/genai/claude-opus</guid>
+            <pubDate>Wed, 26 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Claude Opus 4.5 was released yesterday and is claimed to be "the best model in the world for coding," so I was curious how it performs in ABAP development.]]></description>
+            <content:encoded><![CDATA[<p>Claude Opus 4.5 was released yesterday and is claimed to be "the best model in the world for coding," so I was curious how it performs in ABAP development.</p>
+<p>So I asked both Opus 4.5 (the newest model) and Sonnet 4.5 (the previous model by Anthropic) to create an ALV report for sales order analysis using traditional ABAP. See the complete prompt in the attached document.</p>
+<p>My first impressions:</p>
+<ol>
+<li class="">
+<p>Table selection: Both models hallucinated incorrect tables on their first attempt. Opus 4.5 self-corrected after one prompt; Sonnet 4.5 needed two.</p>
+</li>
+<li class="">
+<p>Syntax errors: Both models produced syntax errors initially. Opus 4.5 fixed them after one prompt; Sonnet 4.5 took five attempts.</p>
+</li>
+<li class="">
+<p>Scope discipline: Opus 4.5 produced only what was requested. Sonnet 4.5 added unrequested features and documentation, increasing output length and review time.</p>
+</li>
+</ol>
+<p>Overall:</p>
+<p>-&gt; Opus 4.5 reached an error-free solution in 3 iterations; Sonnet 4.5 took 7.
+-&gt; Opus 4.5's leaner output made its first attempt ~50% faster to generate.</p>
+<p>This was a simple, quick test. I'm planning to try more complex scenarios next. Stay tuned.</p>]]></content:encoded>
+            <category>GenAI</category>
+        </item>
+        <item>
+            <title><![CDATA[Private beta launch]]></title>
+            <link>https://getadriai.github.io/code-agent-docs/blog/research-agent/li-pvt-beta</link>
+            <guid>https://getadriai.github.io/code-agent-docs/blog/research-agent/li-pvt-beta</guid>
+            <pubDate>Mon, 24 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Yesterday, we opened up free access to our SAP Change Request agent for everyone who requested it earlier.]]></description>
+            <content:encoded><![CDATA[<p>Yesterday, we opened up free access to our SAP Change Request agent for everyone who requested it earlier.</p>
+<p>The response has been amazing! So we're expanding access limits and squashing a few bugs we found along the way.</p>
+<p>Trust me, it's pretty cool watching the agent work through your problems step by step.</p>
+<p>Here's what makes this different from ChatGPT: it doesn't just give you generic answers. It checks solutions against your actual system configuration. For this free version, we're validating against all 18 million standard objects in ECC 6.0 EHP 7.</p>
+<p>A few ways you can put it to work:</p>
+<ol>
+<li class="">Find standard SAP capabilities before you write custom code</li>
+<li class="">Generate functional and technical specs</li>
+<li class="">Find the right SAP objects for what you need</li>
+</ol>]]></content:encoded>
+            <category>Research Agent</category>
+        </item>
+        <item>
+            <title><![CDATA[ChromaSQL Early Preview]]></title>
+            <link>https://getadriai.github.io/code-agent-docs/blog/chromasql/chromasql-preview</link>
+            <guid>https://getadriai.github.io/code-agent-docs/blog/chromasql/chromasql-preview</guid>
+            <pubDate>Mon, 10 Nov 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Excited to share an early preview of ChromaSQL, a new SQL-like language that helps ABAP developers access SAP’s tribal knowledge in a few seconds instead of wading through SE11/SE84 and stacks of notes. 🎉]]></description>
+            <content:encoded><![CDATA[<p>Excited to share an early preview of ChromaSQL, a new SQL-like language that helps ABAP developers access SAP’s tribal knowledge in a few seconds instead of wading through SE11/SE84 and stacks of notes. 🎉</p>
+<p>Say a business user asks you to tighten credit limit checks at order entry. Instead of manually digging through your SAP system chasing BAdIs, tables, and all the related artifacts one by one, you just type what you’re after: “credit limit check enhancement.”</p>
+<div class="language-chromasql codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-chromasql codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">SELECT id, distance, metadata.object_type</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">FROM sap_artifacts</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">USING EMBEDDING (TEXT 'credit limit check enhancement')</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">TOPK 5;</span><br></span></code></pre></div></div>
+<p>That one query runs a vector search across your SAP knowledge base and hands back the top five hits with similarity scores. You learn about:</p>
+<ul>
+<li class="">BAdI implementations like ZSD_CREDIT_CHECK,</li>
+<li class="">Tables (VBAK, KNKK) you need to regression test,</li>
+<li class="">CDS views with related logic,</li>
+<li class="">Even past transports you might have forgotten.</li>
+</ul>
+<p>Now you can decide:</p>
+<ul>
+<li class="">which enhancements to review,</li>
+<li class="">what downstream integrations (credit exposure reports, for example) could break, and</li>
+<li class="">exactly what to drop into your change spec or automated checks.</li>
+</ul>
+<p>Result: Less time wasted digging through SE11/SE84, fewer missed dependencies, and a clearer rollout plan for every change request.</p>
+<p>We’re putting the final polish on the release right now.</p>]]></content:encoded>
+            <category>ChromaSQL</category>
+        </item>
+    </channel>
+</rss>

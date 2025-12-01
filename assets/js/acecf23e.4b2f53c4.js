@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkcode_agent_docs=globalThis.webpackChunkcode_agent_docs||[]).push([[1903],{1912:o=>{o.exports=JSON.parse('{"blogBasePath":"/code-agent-docs/blog","blogTitle":"Blog","authorsListPath":"/code-agent-docs/blog/authors"}')}}]);
