@@ -2,9 +2,7 @@
 sidebar_position: 1
 ---
 
-# Welcome to the Adri AI Docs
-
-Thanks for stopping by.
+# Welcome to Adri AI Docs
 
 These docs show how to use SAP Research Agent to speed up pre-implementation research, produce accurate specs, and run smarter searches across your SAP landscape. Whether you are validating configuration, drafting change requests, or hunting down objects, you will find workflows and reference material tailored to those tasks.
 
