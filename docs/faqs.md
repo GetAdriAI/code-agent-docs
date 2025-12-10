@@ -1,3 +1,7 @@
+---
+sidebar_position: 5
+---
+
 # Frequently Asked Questions (FAQs)
 
 ## Who has created SAP Research Agent?
@@ -9,6 +13,8 @@ SAP Research Agent has been created by Adri AI.
 Adri AI is a global company headquartered in San Francisco, specializing in SAP development.
 
 Its patented software is developed by AI product leaders from MIT, Columbia, and IIT, together with SAP experts bringing over 30 years of experience.
+
+Adri AI is backed by the most prominent investors in Silicon Valley such as [Y Combinator (YC)](https://en.wikipedia.org/wiki/Y_Combinator). [Sam Altman, the CEO of OpenAI, served as the President of Y Combinator before starting OpenAI](https://en.wikipedia.org/wiki/Sam_Altman#Y_Combinator).
 
 ## Who is using SAP Research Agent?
 
