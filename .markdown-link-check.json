@@ -1,0 +1,35 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "^mailto:"
+    },
+    {
+      "pattern": "^http://localhost"
+    },
+    {
+      "pattern": "^\\{.*\\}$",
+      "comment": "Ignore JSX expressions like {demoVideo} or {useBaseUrl(...)}"
+    },
+    {
+      "pattern": "^docs/",
+      "comment": "Ignore paths starting with docs/"
+    },
+    {
+      "pattern": "^/img/",
+      "comment": "Ignore static image assets - verified by Docusaurus build"
+    },
+    {
+      "pattern": "^(\\.\\./)+[a-zA-Z0-9-]+(/[a-zA-Z0-9-]+)*(#[a-zA-Z0-9._-]+)*$",
+      "comment": "Ignore relative paths with ../ without extensions (with optional anchors)"
+    },
+    {
+      "pattern": "^[a-zA-Z0-9-]+(/[a-zA-Z0-9-]+)*(#[a-zA-Z0-9._-]+)*$",
+      "comment": "Ignore relative paths without extensions - Docusaurus routes (with optional anchors)"
+    }
+  ],
+  "aliveStatusCodes": [200, 206, 301, 302, 307, 308],
+  "retryOn429": true,
+  "retryCount": 3,
+  "fallbackRetryDelay": "5s",
+  "timeout": "20s"
+}

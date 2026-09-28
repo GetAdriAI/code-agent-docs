@@ -1,0 +1,41 @@
+export default function IMGExtractionStepsComponent({
+  imageBasePath = '/img/use-cases/img-extraction',
+}) {
+  const image = (name) => `${imageBasePath}/${name}.png`;
+
+  return (
+    <>
+      <p>Important:</p>
+      <ul>
+        <li>
+          <strong>Enabler Framework setup is required before IMG Extraction</strong>:{' '}
+          <a href="/adri-mcp-server/setup-enabler-framework">
+            Setup Enabler Framework
+          </a>
+        </li>
+        <li>
+          IMG Extraction usually takes around <strong>15 minutes</strong>.
+        </li>
+      </ul>
+      <ol>
+        <li>
+          In Project Manager, go to <strong>IMG Extraction -&gt; Overview</strong>{' '}
+          and click <strong>Start</strong>.
+          <img
+            src={image(5)}
+            alt="Start IMG Extraction from Project Manager"
+          />
+        </li>
+        <li>
+          Wait for indexing/extraction to progress. When you see{' '}
+          <strong>Index complete</strong>, the agent can read and modify
+          configuration with better context.
+          <img
+            src={image(6)}
+            alt="Index complete status and extraction progress"
+          />
+        </li>
+      </ol>
+    </>
+  );
+}

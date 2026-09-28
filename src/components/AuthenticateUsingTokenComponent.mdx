@@ -1,0 +1,41 @@
+import {ADRI_URLS} from '@site/src/constants/urls';
+import CodeBlock from '@theme/CodeBlock';
+
+## Authenticate using token
+
+Some coding agents do not support full OAuth browser login.
+In those tools, use an Adri personal access token in the `Authorization` header.
+
+> In every screenshot, the red box shows where to focus.
+
+### 1. Open Access Tokens in Project Settings
+
+1. Log in to Adri AI at <a href={ADRI_URLS.login}>https://www.getadri.ai/login</a>.
+2. Open your project from <a href={ADRI_URLS.projects}>https://www.getadri.ai/projects</a>.
+3. In the left menu, open **Project Settings**, then click **Access Tokens**.
+
+![Open Access Tokens in Project Settings](/img/adri-mcp-server/authenticate-token/1.png)
+
+### 2. Create a new token
+
+1. Click **Create Token**.
+
+![Click Create Token](/img/adri-mcp-server/authenticate-token/2.png)
+
+2. Enter a token name, choose expiry, and click **Generate Token**.
+
+![Generate a new access token](/img/adri-mcp-server/authenticate-token/3.png)
+
+3. Copy the token immediately.
+
+Important:
+- You can only see the full token once.
+- Store it securely.
+
+![Copy the generated token](/img/adri-mcp-server/authenticate-token/4.png)
+
+### 3. Use the token as Bearer auth
+
+Use this HTTP header format:
+
+<CodeBlock language="http">{`Authorization: Bearer <your_access_token>`}</CodeBlock>

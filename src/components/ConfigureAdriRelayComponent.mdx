@@ -1,0 +1,63 @@
+export default function ConfigureAdriRelayComponent({
+  imageBasePath,
+  startNumber = 4,
+}) {
+  const image = (offset) => `${imageBasePath}/${startNumber + offset}.png`;
+
+  return (
+    <ol>
+      <li>
+        In Adri Project Manager, open <strong>Project Settings</strong> and click{' '}
+        <strong>Connections</strong>.
+        <img src={image(0)} alt="Open Connections in Project Settings" />
+      </li>
+      <li>
+        In the <strong>Adri Relay</strong> section, click{' '}
+        <strong>Generate Relay Configuration</strong>.
+        <img src={image(1)} alt="Generate relay configuration" />
+      </li>
+      <li>
+        Copy the generated relay configuration using the copy icon.
+        <img
+          src={image(2)}
+          alt="Copy relay configuration using the copy icon"
+        />
+        <img src={image(3)} alt="Copy relay configuration (alternate view)" />
+      </li>
+      <li>
+        Open the Adri Relay desktop app and go to the <strong>Settings</strong>{' '}
+        tab.
+        <img src={image(4)} alt="Open Settings in Adri Relay" />
+      </li>
+      <li>
+        Scroll to <strong>Quick Setup</strong> and paste the copied relay
+        configuration.
+        <img src={image(5)} alt="Paste relay configuration in Quick Setup" />
+      </li>
+      <li>
+        Click <strong>Import Configuration</strong>.
+        <img src={image(6)} alt="Click Import Configuration" />
+      </li>
+      <li>
+        Click <strong>Register</strong>.
+        <img src={image(7)} alt="Register the imported configuration" />
+      </li>
+      <li>
+        Wait until you see <strong>Setup complete</strong>.
+        <img src={image(8)} alt="Verify Setup complete status" />
+      </li>
+      <li>
+        Open the <strong>Dashboard</strong> tab.
+        <img src={image(9)} alt="Open Dashboard tab" />
+      </li>
+      <li>
+        Click <strong>Connect</strong>.
+        <img src={image(10)} alt="Click Connect in Dashboard" />
+      </li>
+      <li>
+        Confirm the status changes to <strong>Connected</strong>.
+        <img src={image(11)} alt="Verify Connected status" />
+      </li>
+    </ol>
+  );
+}

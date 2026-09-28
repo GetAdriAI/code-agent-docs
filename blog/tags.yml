@@ -1,14 +1,24 @@
-genai:
-  label: GenAI
-  permalink: /genai
-  description: GenAI tag description
-
-chromasql:
-  label: ChromaSQL
-  permalink: /chromasql
-  description: chromasql tag description
+code-agent:
+  label: Code Agent
+  permalink: /code-agent
+  description: All posts about Adri AI's Code Agent
 
 research-agent:
   label: Research Agent
   permalink: /research-agent
-  description: research-agent tag description
+  description: All posts about Adri AI's SAP Research Agent
+
+chromasql:
+  label: ChromaSQL
+  permalink: /chromasql
+  description: All posts about ChromaSQL by Adri AI
+
+genai:
+  label: GenAI
+  permalink: /genai
+  description: All posts about GenAI
+
+sap:
+  label: SAP
+  permalink: /sap
+  description: All posts about SAP terminology, architecture, and implementation patterns

@@ -1,0 +1,50 @@
+import Link from '@docusaurus/Link';
+
+## Connect your SAP system
+
+Use these steps to create a new SAP connection in Adri Project Manager.
+If you are not sure how to reach **Project Settings**, follow <Link to="/project-management/open-a-project">Open a Project</Link> first.
+
+> In every screenshot, the red box shows exactly where to focus.
+
+### 1. Open the Connections page
+
+1. In the left sidebar, open **Project Settings**.
+2. Click **Connections**.
+
+![Open Connections from Project Settings](/img/connect-sap-systems/1.png)
+
+### 2. Create a new connection
+
+1. On the Connections page, click **+ New Connection**.
+
+![Click + New Connection](/img/connect-sap-systems/2.png)
+
+2. Enter your SAP technical details in the dialog (system ID, server details, ports, and related fields).
+
+Tip:
+- If you are unsure about these values, ask your SAP Basis or system administrator.
+
+![Enter SAP technical connection details](/img/connect-sap-systems/3.png)
+
+3. Continue to the credentials section and fill in connection name, client, language, user, and password.
+
+![Fill in SAP credentials](/img/connect-sap-systems/4.png)
+
+4. Enable **Save Password** so Adri can securely store credentials and use the connection later.
+
+![Enable Save Password](/img/connect-sap-systems/5.png)
+
+5. If this system is reachable only through VPN, enable **VPN-Only / Relay**.
+
+What this means:
+- **VPN-Only / Relay** tells Adri AI that this SAP system is not directly reachable from the internet.
+- You will use **Adri Relay** (a small desktop app) to securely bridge that connection.
+
+![Enable VPN-Only / Relay for VPN-restricted systems](/img/connect-sap-systems/6.png)
+
+6. Click **Finish** to create the connection.
+
+### 3. If your system needs VPN relay
+
+Install and configure Adri Relay by following the <Link to="/connect-sap-system/vpn-users">VPN users guide</Link>.

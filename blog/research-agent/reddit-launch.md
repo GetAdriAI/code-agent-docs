@@ -8,6 +8,8 @@ date: 2025-11-27
 
 We launched on Reddit and it crashed our app. 🫠
 
+<!-- truncate -->
+
 I had assumed Reddit wasn't where our audience was. So I posted at midnight and went to sleep.
 
 My expectations were low. I had assumed that:

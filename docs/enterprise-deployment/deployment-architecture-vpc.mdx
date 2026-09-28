@@ -1,0 +1,362 @@
+---
+image: img/kg-arch.png
+---
+
+# How Adri AI deploys Knowledge Graph Infrastructure in Customer's VPC
+
+This document describes the network topology, component responsibilities, data flows, storage tier design, security boundaries, and authentication protocol that make up the deployment architecture.
+
+The architecture is designed around a single organizing principle: **the customer's SAP landscape is never exposed to inbound network traffic**. Every component placement, communication pattern, and credential flow follows from this constraint.
+
+Adri AI deploys entirely within the customer's VPC. A Connector in the SAP-restricted subnet extracts custom ABAP objects, pushes them to a Knowledge Graph Builder that generates embeddings via private LLM endpoints, and stores the resulting knowledge graph across three storage tiers — a vector database, Postgres, and S3. An Adri AI Server handles orchestration, authorization, and query execution, serving results to Adri AI agents during code generation and research.
+
+import AdriArchitectureDiagram from '@site/src/components/AdriArchitectureDiagram';
+
+<AdriArchitectureDiagram />
+
+---
+
+## 1. Network Zones
+
+The system spans two distinct network zones separated by a firewall, plus managed LLM services accessed via private endpoints.
+
+### 1.1 Customer VPC
+
+The primary zone where the knowledge graph pipeline and all storage infrastructure run. The Knowledge Graph Builder and storage tiers operate entirely within the VPC. LLM embedding calls are routed through VPC endpoints (AWS PrivateLink, Azure Private Link, or GCP Private Service Connect) and never traverse the public internet. Only the Adri AI Server requires outbound internet access — for web search functionality.
+
+**Components in this zone:**
+
+- Adri AI Server (orchestration, authorization, web search — only component requiring internet access)
+- Adri AI Knowledge Graph Builder
+- Vector Database
+- Postgres Database
+- S3-like Object Storage
+- LLM Embedding Service (accessed via VPC endpoint — no internet required)
+
+**Firewall posture:** Outbound internet access required only for the Adri AI Server (web search). All other components operate within the VPC using private endpoints. Inbound access restricted to authorized services. Standard cloud VPC security groups and network ACLs apply.
+
+### 1.2 SAP Restricted Subnet (No Inbound Ports)
+
+A locked-down subnet within the customer's network that has direct access to the SAP landscape. Enterprises typically enforce a strict "no open inbound ports" policy on this subnet because it contains their most sensitive business systems.
+
+**Components in this zone:**
+
+- SAP Gateway
+- Adri AI Connector (client)
+
+**Connector system requirements**: The Adri AI Connector installs a Java runtime and its dependencies on the host machine. It downloads Amazon Corretto or OpenJDK, depending on what the customer's environment permits.
+
+**Firewall posture:** No inbound ports open to any external network. Only outbound connections are permitted. This means no external system — including the Adri AI Knowledge Graph Builder — can initiate a connection into this subnet.
+
+### 1.3 LLM Embedding Service (Managed Cloud Service via Private Endpoint)
+
+The LLM embedding service is a managed cloud service accessed through VPC endpoints (AWS PrivateLink, Azure Private Link, or GCP Private Service Connect). Traffic between the Knowledge Graph Builder and the LLM service travels over the cloud provider's internal network backbone — it never traverses the public internet. No internet gateway or NAT device is required for embedding calls.
+
+**Supported providers:**
+
+- AWS Bedrock (Claude, Titan) — via `com.amazonaws.<region>.bedrock-runtime` VPC endpoint
+- Azure OpenAI (GPT-4) — via Azure Private Link
+- GCP Vertex AI (Gemini) — via Private Service Connect
+
+Customers select their preferred provider based on existing cloud relationships and contractual terms.
+
+---
+
+## 2. Components
+
+### 2.1 Adri AI Server
+
+<AdriArchitectureDiagram highlightNode="server" />
+
+---
+| Property              | Value                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------ |
+| **Role**              | Orchestration, authentication, authorization, web search.                            |
+| **Zone**              | Customer VPC                                                                         |
+| **Internet access**   | Required (for web search functionality only)                                         |
+| **Contains**          | ChromaSQL Query Engine (internal module)                                             |
+| **Communicates with** | Consumers (inbound), Knowledge Graph Builder, Vector DB and Postgres (via ChromaSQL) |
+
+The Adri AI Server is the only component in the architecture that requires outbound internet access — specifically for web search functionality. It authenticates developers via the customer's IdP, enforces authorization policies, generates ChromaSQL queries against the knowledge graph, and serves results to consumers (AI chat, IDE plugins, API clients).
+
+ChromaSQL is embedded within the Adri AI Server as an internal query engine module. It is not a separate network service. All queries against the Vector Database and Postgres are issued by ChromaSQL inside the server process, after the server has authenticated and authorized the requesting user.
+
+### 2.2 Adri AI Knowledge Graph Builder
+
+<AdriArchitectureDiagram highlightNode="builder" />
+
+| Property               | Value                                                             |
+| ---------------------- | ----------------------------------------------------------------- |
+| **Role**               | Server. Builds and maintains the knowledge graph.                 |
+| **Zone**               | Customer VPC                                                      |
+| **Internet access**    | Not required                                                      |
+| **Communicates with**  | LLM Embedding Service (via VPC endpoint), Vector DB, Postgres, S3 |
+| **Receives data from** | Adri AI Connector (inbound from SAP subnet)                       |
+
+The Knowledge Graph Builder is the central orchestrator for graph construction. It receives raw ABAP objects from the Connector, applies the customer-configured content scope to determine what is sent for embedding, and then distributes the results across the three storage tiers based on data size and query requirements. It builds and maintains the knowledge graph of the customer's custom ABAP objects and their dependencies.
+
+**Why it does not need internet access:** LLM embedding calls are routed through VPC endpoints (PrivateLink), which provide private connectivity to the managed LLM service without requiring an internet gateway, NAT device, or public IP address. All traffic stays on the cloud provider's internal network backbone.
+
+**Why it lives in the Customer VPC:** It serves as the endpoint that the Connector pushes data to, and it needs access to the VPC endpoint for LLM calls and to the storage tiers. Placing it in the VPC keeps all knowledge graph data within the customer's network boundary.
+
+### 2.3 Adri AI Connector
+
+<AdriArchitectureDiagram highlightNode="connector" />
+
+| Property              | Value                                                                         |
+| --------------------- | ----------------------------------------------------------------------------- |
+| **Role**              | Client. Extracts ABAP objects and pushes them to the Knowledge Graph Builder. |
+| **Zone**              | SAP Restricted Subnet                                                         |
+| **Communicates with** | SAP Gateway (local subnet), Knowledge Graph Builder (outbound only)           |
+
+The Connector is the only Adri AI component that touches the SAP system. It runs inside the SAP-restricted subnet alongside SAP Gateway and initiates all connections outbound.
+
+**Why it's a client, not a server:** Enterprise SAP subnets prohibit inbound connections. If the Knowledge Graph Builder needed to pull data from SAP, it would require an open port in the restricted subnet — a non-starter for most security teams. By making the Connector a client that pushes data outbound, the SAP subnet's "no inbound ports" policy is preserved. The Connector establishes a Secure WebSocket connection to the Knowledge Graph Builder using mutual TLS (mTLS) for transport identity and short-lived JWTs for session authorization (see Section 5.5 for details).
+
+**Why it shares a subnet with SAP Gateway:** The Connector needs direct network access to SAP Gateway's ADT APIs. Placing it in the same restricted subnet avoids any need for network hops, port forwarding, or additional firewall rules between the Connector and SAP. It communicates with SAP Gateway over HTTPS within the local subnet.
+
+### 2.4 SAP Gateway
+
+<AdriArchitectureDiagram highlightNode="sapgw" />
+
+| Property              | Value                                                     |
+| --------------------- | --------------------------------------------------------- |
+| **Role**              | Enterprise SAP system. Exposes ABAP objects via ADT APIs. |
+| **Zone**              | SAP Restricted Subnet                                     |
+| **Communicates with** | Adri AI Connector (local subnet only)                     |
+
+SAP Gateway is the customer's existing SAP system. It is not an Adri AI component — it is the data source. The Connector authenticates to it using one of the supported authorization strategies (Passwordless SSO, Customer-Managed Secrets, or Technical User Service Account) and reads ABAP objects through the standard ADT interface.
+
+**Why it's in the restricted subnet:** This is the customer's existing deployment topology. SAP systems are almost universally placed in the most restricted network zone available because they contain core business logic, financial data, and proprietary processes. The architecture respects this placement rather than requiring the customer to change it.
+
+### 2.5 LLM Embedding Service
+
+<AdriArchitectureDiagram highlightNode="llm" />
+
+| Property              | Value                                                             |
+| --------------------- | ----------------------------------------------------------------- |
+| **Role**              | Generates vector embeddings for semantic search.                  |
+| **Access method**     | VPC endpoint (PrivateLink) — no internet required                 |
+| **Communicates with** | Knowledge Graph Builder (receives API calls via private endpoint) |
+
+The LLM Embedding Service is a managed cloud API that converts ABAP content into vector embeddings. These embeddings enable semantic search — finding ABAP objects by meaning rather than just keyword matching.
+
+**What is sent to the LLM provider:** The Knowledge Graph Builder applies a customer-configured content scope before sending any ABAP content for embedding. Customers choose from three levels:
+
+- **Full source** (default): Complete ABAP source code is sent for embedding. Produces the highest quality semantic search results. Suitable for non-sensitive systems or when the LLM provider's data handling guarantees are sufficient.
+- **Signatures and documentation only**: Only method/function signatures, class interfaces, object documentation, and dependency metadata are sent. Method bodies, function implementations, and inline business logic are stripped. Reduces exposure while preserving meaningful semantic search.
+- **Local embedding only**: No ABAP content is sent to the managed LLM service. A local embedding model is deployed inside the customer's VPC. Eliminates all third-party data transfer at the cost of requiring additional infrastructure.
+
+The Basis team or security team selects the appropriate level during setup. The content scope can be changed at any time; changing it triggers a rebuild of the affected embeddings.
+
+**Provider data handling guarantees:** All supported providers operate under enterprise data processing agreements. AWS Bedrock, Azure OpenAI, and GCP Vertex AI each guarantee that customer data sent for inference is not used for model training, is not accessible to the model provider, is not shared with third parties, and is encrypted in transit and at rest. These guarantees apply regardless of which content scope level is selected.
+
+**Private connectivity via VPC endpoints:** Embedding API calls are routed through VPC endpoints (AWS PrivateLink, Azure Private Link, or GCP Private Service Connect). This means traffic between the Knowledge Graph Builder and the LLM service travels over the cloud provider's internal network backbone. No internet gateway, NAT device, or public IP address is required. The VPC endpoint creates elastic network interfaces with private IPs in the customer's VPC subnets, providing a direct private network path to the managed service.
+
+**Provider neutrality:** The architecture does not lock the customer into a single LLM vendor. The Knowledge Graph Builder abstracts the embedding API behind a provider-agnostic interface. Customers choose based on their existing cloud relationships, pricing, and compliance posture.
+
+### 2.6 Vector Database
+
+<AdriArchitectureDiagram highlightNode="vectordb" />
+
+| Property              | Value                                                      |
+| --------------------- | ---------------------------------------------------------- |
+| **Role**              | Stores vector embeddings for semantic search.              |
+| **Zone**              | Customer VPC                                               |
+| **Record size limit** | 8,096 bytes                                                |
+| **Communicates with** | Knowledge Graph Builder (writes), ChromaSQL Engine (reads) |
+
+The Vector Database stores the embedding vectors produced by the LLM service alongside minimal metadata. It enables fast approximate nearest-neighbor search, which powers the semantic query capability — "find ABAP objects similar in meaning to this description."
+
+**Why a dedicated vector database:** General-purpose databases are not optimized for high-dimensional vector similarity search. A purpose-built vector database provides the structures (HNSW, IVF) and distance metrics (cosine similarity, dot product) needed for fast semantic retrieval at scale.
+
+**Why it has a size limit:** Vector databases are optimized for fixed-size vectors and small metadata payloads. The 8,096-byte-per-record limit means that only the embedding vector and essential metadata (object name, type, package) are stored here. Full source code, documentation, and dependency information live in Postgres and S3.
+
+### 2.7 Postgres Database
+
+<AdriArchitectureDiagram highlightNode="postgres" />
+
+| Property              | Value                                                          |
+| --------------------- | -------------------------------------------------------------- |
+| **Role**              | Stores keyword-searchable content and medium-length documents. |
+| **Zone**              | Customer VPC                                                   |
+| **Record size limit** | 1 MB                                                           |
+| **Communicates with** | Knowledge Graph Builder (writes), ChromaSQL Engine (reads)     |
+
+Postgres serves as the structured storage layer for content that needs keyword search, full-text search, and relational queries. It stores ABAP object metadata, dependency relationships, documentation, and source code for objects that fit within the 1 MB limit.
+
+**Why Postgres alongside a vector database:** Semantic search (vector DB) and keyword search (Postgres) serve different use cases. A developer searching for "all function modules that call BAPI_MATERIAL_GETDETAIL" needs exact keyword matching, not semantic similarity. Postgres provides this with standard full-text search indexes, `LIKE` queries, and structured filtering (by package, object type, transport request, etc.). It also stores the dependency graph between custom objects, which is inherently relational data.
+
+**Why it has a size limit:** The 1 MB record size limit keeps query performance predictable. Objects exceeding this limit are offloaded to S3.
+
+### 2.8 S3-like Object Storage
+
+<AdriArchitectureDiagram highlightNode="s3" />
+
+| Property              | Value                                                |
+| --------------------- | ---------------------------------------------------- |
+| **Role**              | Stores large files that exceed database size limits. |
+| **Zone**              | Customer VPC                                         |
+| **Size limit**        | Effectively unlimited                                |
+| **Communicates with** | Knowledge Graph Builder (writes)                     |
+
+S3 Object Storage handles the long tail of oversized ABAP objects. Some ABAP programs, includes, and class pools contain 10,000+ lines of code, producing files well over 1 MB. These are too large for both the vector database (8,096 bytes) and Postgres (1 MB limit).
+
+**Why a third storage tier:** Without S3, the system would either truncate large objects (losing information) or force them into Postgres (degrading query performance). S3 provides cost-effective, durable storage for arbitrarily large objects. The vector database and Postgres store references (S3 keys) to these objects, so the query engine can still locate them and fetch content on demand.
+
+**What goes here:** ABAP objects exceeding 1 MB, typically large reports, enhancement implementations, class pools with extensive method bodies, and generated code.
+
+---
+
+## 3. Data Flow
+
+### 3.1 Knowledge Graph Build Flow (Write Path)
+
+```
+SAP Gateway
+    │
+    │  ABAP objects (ADT API, HTTPS, local subnet)
+    ▼
+Adri AI Connector
+    │
+    │  Outbound push (Secure WebSocket, mTLS + JWT)
+    │  Crosses firewall from SAP Subnet → Customer VPC
+    ▼
+Adri AI Knowledge Graph Builder
+    │
+    ├──→ Apply content scope (full source / signatures only / local only)
+    │         │
+    │         ├──→ LLM Embedding Service (via VPC endpoint — no internet)
+    │         │         │
+    │         │         └── Returns embedding vectors
+    │         │
+    │         └──→ Local Embedding Model (if configured)
+    │
+    ├──→ Vector Database (store embeddings + minimal metadata)
+    ├──→ Postgres Database (store source code, dependencies, structured metadata)
+    └──→ S3 Object Storage (store oversized objects > 1 MB)
+```
+
+### 3.2 Query Flow (Read Path)
+
+```
+Adri AI Server
+    │  Authenticates user, enforces authorization
+    │
+    │  ┌──────────────────────────────────────────┐
+    │  │  ChromaSQL Engine (internal module)       │
+    │  │                                          │
+    │  │  ├──→ Vector Database (semantic)          │
+    │  │  ├──→ Postgres Database (keyword)         │
+    │  │  ├──→ S3 Object Storage (large objects)   │
+    │  │  │                                        │
+    │  │  └── Merged, ranked results               │
+    │  └──────────────────────────────────────────┘
+    │
+    └── Results returned to caller
+```
+
+### 3.3 What Crosses Network Boundaries
+
+| Boundary          | Data Crossing                                                     | Direction                          | Protocol                                                                          |
+| ----------------- | ----------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------- |
+| SAP Subnet → VPC  | Raw ABAP objects (source code, metadata)                          | Outbound from SAP subnet           | Secure WebSocket over mTLS (24-hour client certs, ECDSA P-256) + JWT session auth |
+| VPC → LLM Service | ABAP content (scoped by customer configuration — see Section 2.5) | Via VPC endpoint (private network) | HTTPS over PrivateLink — no internet traversal                                    |
+| VPC → Internet    | Web search queries (Adri AI Server only)                          | Outbound from VPC                  | HTTPS (TLS 1.2+) via NAT gateway or internet gateway                              |
+
+No data flows inbound into the SAP restricted subnet. LLM embedding calls travel over the cloud provider's internal network backbone via VPC endpoints and never traverse the public internet. The only component requiring internet access is the Adri AI Server, for web search functionality. The content sent to the LLM provider is determined by the customer-configured content scope (full source, signatures only, or none).
+
+---
+
+## 4. Storage Tier Selection
+
+The Knowledge Graph Builder routes each piece of content to the appropriate storage tier based on size and query requirements.
+
+| Content Type                                 | Size                     | Storage Tier      | Reason                                                 |
+| -------------------------------------------- | ------------------------ | ----------------- | ------------------------------------------------------ |
+| Embedding vector + key metadata              | < 8,096 bytes            | Vector Database   | Optimized for similarity search                        |
+| Source code, dependencies, structured fields | < 1,048,576 bytes (1 MB) | Postgres          | Full-text search, relational queries, keyword matching |
+| Oversized ABAP objects                       | > 1,048,576 bytes (1 MB) | S3 Object Storage | No practical size limit, cost-effective blob storage   |
+
+This tiered approach ensures that no single storage system is forced to handle data outside its optimal range, keeping query performance predictable and storage costs proportional to usage.
+
+---
+
+## 5. Security Boundaries
+
+### 5.1 Firewall Between VPC and SAP Subnet
+
+The firewall enforces the most critical security boundary in the architecture. It permits outbound connections from the SAP subnet to the VPC (the Connector pushing data to the Knowledge Graph Builder) but blocks all inbound traffic into the SAP subnet.
+
+This means that even if the entire Customer VPC were compromised — the Knowledge Graph Builder, all three databases, and the ChromaSQL Engine — an attacker still could not initiate a connection into the SAP subnet to reach SAP Gateway.
+
+### 5.2 LLM Access via VPC Endpoints (Private Network)
+
+The Knowledge Graph Builder accesses the LLM Embedding Service through VPC endpoints (AWS PrivateLink, Azure Private Link, or GCP Private Service Connect). This means embedding API traffic travels over the cloud provider's internal network backbone and never traverses the public internet. No internet gateway, NAT device, or public IP address is required for embedding calls.
+
+This design provides enhanced security (no public internet exposure for ABAP content), lower latency (direct private network path), cost savings (no NAT gateway charges for LLM traffic), and compliance benefits (traffic stays within the cloud provider's network).
+
+**Content scope control:** The customer configures what ABAP content is sent to the LLM service for embedding. Three levels are available:
+
+- **Full source:** Complete source code is sent. The LLM provider's enterprise data processing agreements guarantee that this content is not used for training, is not accessible to the provider, and is encrypted in transit and at rest.
+- **Signatures and documentation only:** Method bodies and inline business logic are stripped before sending. Only structural information (signatures, interfaces, documentation, dependency metadata) reaches the LLM service. This significantly reduces the sensitivity of the data while maintaining useful semantic search.
+- **Local embedding only:** No ABAP content is sent to the managed LLM service. A local embedding model runs inside the customer's VPC. This eliminates all third-party data transfer.
+
+The content scope is customer-configurable and can be set per SAP system, allowing different policies for production versus development landscapes.
+
+### 5.3 Internet Access (Adri AI Server Only)
+
+The Adri AI Server is the only component in the architecture that requires outbound internet access, specifically for web search functionality. All other components — the Knowledge Graph Builder, the Connector, the storage tiers, and the LLM Embedding Service access — operate entirely within private networks (the customer VPC and cloud provider backbone).
+
+Internet-bound traffic from the Adri AI Server is routed through a NAT gateway or internet gateway with standard security group rules limiting outbound connections to HTTPS.
+
+### 5.4 Connector Isolation
+
+The Connector is the only component that touches both the SAP system and the external network (via its outbound connection to the Knowledge Graph Builder). To limit its blast radius:
+
+- It holds credentials in memory only, never writing them to disk
+- It zeroes credential memory on process exit (using the `zeroize` crate)
+- It does not expose credentials in command-line arguments or environment variables
+- Network-level egress rules should restrict its outbound traffic to only the Knowledge Graph Builder's address
+- It executes only the ADT operations authorized by the server's session scope
+
+### 5.5 Connector-to-Server Authentication (mTLS + JWT)
+
+The Connector authenticates to the Adri AI Server (and by extension, the Knowledge Graph Builder) using a two-layer protocol. This prevents rogue connectors from pushing fabricated data into the knowledge graph.
+
+**Layer 1 — Mutual TLS (Transport Identity):** The Connector presents a client certificate during the TLS handshake. The Adri AI Server validates that the certificate is signed by the Adri AI Intermediate CA, is not expired, is not revoked, and that the connector ID in the certificate's CN matches an active registration record. Certificates use ECDSA P-256 keys and are valid for 24 hours, automatically renewed before expiry with a fresh key pair on each renewal.
+
+**Layer 2 — JWT (Session Authorization):** After the mTLS handshake succeeds, the Connector obtains a short-lived JWT from the server. The JWT carries session-scoped authorization claims including the connector's organization, deployment class, permitted authorization strategies, and allowed capabilities. The JWT is refreshed automatically within the persistent session, allowing the server to update policy decisions without renegotiating TLS.
+
+**Why both layers:** mTLS proves cryptographic identity at the transport layer — it is hard to forge and cannot be replayed. The JWT carries the server's current policy decisions and can be refreshed without renegotiating TLS. If a customer's plan or permissions change mid-session, the next JWT refresh picks up the new policy immediately.
+
+**Certificate Authority hierarchy:** Adri AI operates a two-tier CA: an offline, HSM-backed Root CA whose public key is embedded in every connector binary at build time, and an online Intermediate CA (AWS Private CA in production) that signs connector certificates. If the Intermediate CA is compromised, it can be rotated without changing the root embedded in binaries. The Root CA is disabled after signing the Intermediate to minimize cost and attack surface.
+
+**Registration and trust establishment:**
+
+- **Customer connectors** are registered using a one-time registration token generated by a customer admin in the Adri AI Web UI. The token is bound to the customer's organization, expires in 15 minutes, and is consumed on first use. During registration, the Connector generates a key pair locally (the private key never leaves the machine), sends a CSR to the server, and receives a signed certificate with `OU=customer` and the customer's organization ID. No secrets are transmitted — only the CSR and the opaque registration token.
+- **Internal connectors** (Adri AI's own infrastructure) register automatically using IAM-role-based bootstrap tokens from AWS STS, receiving certificates with `OU=internal`.
+
+**Deployment class enforcement:** The certificate's `OU` field encodes the deployment class (`internal` or `customer`), and the server enforces a hardcoded policy that determines which authorization strategies each class is permitted to use. Customer connectors can use Customer-Managed Secrets, Passwordless SSO, and Technical User strategies. Internal connectors can only use Dev Sandbox and Adri-Managed Secrets. This policy cannot be overridden — only further restricted per organization.
+
+**Certificate lifecycle and revocation:** The 24-hour certificate validity eliminates the need for real-time CRL distribution. If a connector is compromised, three revocation mechanisms are available: immediate termination of the active WebSocket connection (milliseconds), passive expiry (the renewal request is rejected), and explicit admin revocation via Web UI or API. Key pairs are rotated on every renewal, limiting the window of exposure for a compromised key to at most 24 hours.
+
+---
+
+## 6. Design Decisions Summary
+
+| Decision                                        | Rationale                                                                                 |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Connector as client, not server                 | Preserves SAP subnet's "no inbound ports" policy                                          |
+| mTLS + JWT dual-layer authentication            | mTLS proves transport identity; JWT carries refreshable session policy                    |
+| 24-hour certificate validity with auto-renewal  | Limits compromised-certificate window; eliminates need for real-time CRL                  |
+| Two-tier CA with embedded root                  | Intermediate CA can be rotated without updating binaries; root CA is offline              |
+| Deployment class enforcement via certificate OU | Hardcoded policy boundary between internal and customer connectors                        |
+| Connector co-located with SAP Gateway           | Avoids additional firewall rules between Connector and SAP                                |
+| LLM access via VPC endpoints (PrivateLink)      | Embedding traffic never traverses the public internet; no internet gateway required       |
+| Provider-neutral LLM abstraction                | No vendor lock-in; customer chooses based on compliance and cost                          |
+| Three storage tiers                             | Each tier handles its optimal data size range; no truncation, no performance degradation  |
+| ChromaSQL embedded inside Adri AI Server        | Single trust boundary for read path; no separate network service to secure                |
+| Customer-configurable content scope             | Customer controls what ABAP content is sent for embedding; can be set per SAP system      |
+| Only Adri AI Server requires internet access    | Minimizes internet-exposed surface area; all other components operate on private networks |
+| Knowledge Graph Builder in VPC                  | Keeps all knowledge graph data within customer's network; LLM access via private endpoint |

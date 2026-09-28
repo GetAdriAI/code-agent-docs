@@ -18,3 +18,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Writing guide
+tone-guidelines.md
+
+# Link checker report
+broken-links.md

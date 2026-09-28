@@ -20,6 +20,16 @@ dc:
     linkedin: darshitac
     github: darshitac11
 
+ss:
+  name: Shyam Swaroop
+  title: Co-Founder & CTO, Adri AI
+  url: https://www.linkedin.com/in/shyamswaroop/
+  image_url: https://github.com/cruxcode.png
+  page: true
+  socials:
+    linkedin: shyamswaroop
+    github: cruxcode
+
 slorber:
   name: Sébastien Lorber
   title: Docusaurus maintainer

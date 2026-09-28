@@ -8,6 +8,8 @@ date: 2025-11-10
 
 Excited to share an early preview of ChromaSQL, a new SQL-like language that helps ABAP developers access SAP’s tribal knowledge in a few seconds instead of wading through SE11/SE84 and stacks of notes. 🎉
 
+<!-- truncate -->
+
 Say a business user asks you to tighten credit limit checks at order entry. Instead of manually digging through your SAP system chasing BAdIs, tables, and all the related artifacts one by one, you just type what you’re after: “credit limit check enhancement.”
 
 ```chromasql

@@ -40,3 +40,54 @@
   white-space: normal;
   word-break: break-word;
 }
+
+/* Navbar button style */
+.navbar__item.navbar-cta-button {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.navbar__item.navbar-cta-button:hover {
+  background-color: var(--ifm-color-primary-dark);
+  color: white;
+  text-decoration: none;
+}
+
+.adri-inline-code-with-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.adri-inline-code-with-copy code {
+  margin: 0;
+}
+
+.adri-inline-code-copy-button {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 0.2rem 0.35rem;
+  cursor: pointer;
+}
+
+.adri-inline-code-copy-button:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.theme-code-block .clean-btn {
+  opacity: 0.8 !important;
+}
+
+.theme-code-block .clean-btn:hover,
+.theme-code-block .clean-btn:focus-visible {
+  opacity: 1 !important;
+}

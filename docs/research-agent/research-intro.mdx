@@ -4,106 +4,57 @@ sidebar_position: 1
 
 # Introduction
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import {ADRI_URLS} from '@site/src/constants/urls';
+
 SAP Research Agent is built for pre-implementation research that suggests solutions after verifying against your unique system configuration.
 
 This means:
 
-- **Accurate configuration assessments**: Configuration checks reflect your installed components and active settings.
-- **Contextual specs creation**: Generated documentation references your custom objects, existing enhancements, and naming conventions.
-- **Relevant results**: Searches return objects that exist in your system, not theoretical possibilities.
+- **Accurate configuration assessments**: Configuration checks reflect your installed components and active settings
+- **Contextual specs creation**: Generated documentation references your custom objects, existing enhancements, and naming conventions
+- **Relevant results**: Searches return objects that exist in your system, not theoretical possibilities
 
 :::tip
-Check out the [free and open version](https://research.getadri.ai) where the results are validated against the 18 million standard objects in ECC 6.0 EHP 7 and 27 million standard objects in S/4HANA 2023.
+Check out the <a href={ADRI_URLS.research}>free and open version</a> — a demo sandbox connected to our ECC and S/4HANA systems where the knowledge graph consists of ~18M+ standard & custom objects for ECC and ~27M+ standard & custom objects for S/4HANA. These numbers demonstrate large-scale knowledge creation and retrieval, and represent the minimum ballpark for a typical knowledge graph. Use it to learn about the capabilities of Adri agents and test them.
 :::
 
 ## Key Use Cases
 
-1. **Check Configuration Options**
+- **[Check Configuration Options](use-cases/configuration-check.md)** - Find standard SAP capabilities before writing custom code
+- **[Write Specifications](use-cases/spec-documents.md)** - Create functional and technical specification documents
+- **[Find SAP Objects](use-cases/find-sap-objects.md)** - Locate relevant objects using natural language
 
-Find standard SAP capabilities that will satisfy your requirement, thus avoiding unnecessary custom code development
+## Key Capabilities
 
-2. **Write Functional and Technical Specification Documents**
+- **[System Validation](capabilities/system-validation.md)** - Validates recommendations against your SAP system using ChromaSQL queries
+- **[Web Search](capabilities/web-search.md)** - Searches the internet for SAP solutions and best practices
+- **[Document Processing](capabilities/document-processing.md)** - Reads uploaded attachments and adds them to the knowledge graph for reference
+- **[Models](capabilities/models.md)** - Over 40 LLMs with specialized SAP configuration
 
-Create comprehensive functional and technical specifications for configuration changes and custom code.
-
-3. **Find SAP Objects**
-
-Instantly locate relevant objects from your ERP system. Search across programs, function modules, tables, data elements, and more with results filtered to your system's active components.
-
-## How does SAP Research Agent work?
-
-### Core Architecture
-
-- **AI Backend**: SAP Research Agent uses over 40+ Large Language Models with specialized configuration for SAP research tasks. More details [here](https://getadriai.github.io/code-agent-docs/faqs#which-models-are-being-used)
-- **Vector Database**: The attached ERP system has been indexed into a ChromaDB vector database. It contains 18 million standard objects of ECC 6.0 EHP 7 and 27 million standard objects of S/4HANA 2023 like:
-
-  - Transaction codes, programs, classes
-  - Tables, views, data elements
-  - BAdIs, enhancements, function modules
-  - Menu paths, documentation, and more
-
-### Which models are being used?
-
-SAP Research Agent uses a combination of:
-
-- Internally fine-tuned models
-- Public frontier models
-
-Depending on the subtask, an appropriate combination of models is chosen dynamically.
-
-| Model Provider | No. of models used |
-| -------------- | ------------------ |
-| Adri AI        | 4                  |
-| Google         | 9                  |
-| Mistral        | 6                  |
-| Meta           | 8                  |
-| OpenAI         | 7                  |
-| Anthropic      | 4                  |
-| Cohere         | 4                  |
-| Total          | 42                 |
-
-Note: Counts are as of November 2025
-
-### Key Capabilities
-
-1. **System Validation**
-
-SAP Research Agent queries the attached SAP system by writing ChromaSQL queries. ChromaSQL is a SQL-inspired domain specific language created by Adri AI.
-
-2. **Web Search**
-
-SAP Research Agent also has the capability to search the internet for SAP solutions, best practices, and similar use cases.
-
-3. **Document Processing**
-
-SAP Research Agent can read the uploaded attachments and optionally index them for future reference.
-
-### Typical Workflow
+## Typical Workflow
 
 1. User asks a research question (text + optional attachments)
-2. Depending on the question, the SAP Research Agent may think of a solution from its own knowledge base or search the web for relevant resources.
-3. The solution is then validated against your SAP system's capabilities using the vector database.
-4. The agent creates detailed implementation plans with specific T-codes, ABAP objects, and configuration steps.
-5. The agent provides alternatives and visual diagrams when helpful.
+2. The agent searches its knowledge base or the web for relevant resources
+3. Solutions are validated against your SAP system's capabilities
+4. The agent creates detailed implementation plans with specific T-codes, ABAP objects, and configuration steps
+5. Alternatives and visual diagrams are provided when helpful
 
-## Connected systems
+## Core Architecture
 
-If you are on Adri AI's Enterprise Plan, you can connect SAP Research Agent to your SAP environment to enable system-aware recommendations.
+- **AI Backend**: SAP Research Agent uses over 40 Large Language Models with specialized configuration for SAP research tasks. See [Models](capabilities/models.md) for details.
+- **Knowledge Graph**: When you connect your SAP systems with Adri — any number of systems, irrespective of version (ECC, S/4HANA, etc.) — a knowledge graph is created for each, containing all the technical objects in that system: custom tables, field definitions, dependencies, and more. Each knowledge graph is stored in a ChromaDB vector database containing millions of standard and custom SAP objects. See [Available SAP Standard Objects](capabilities/objects.md) for details.
 
-You can also check out the [free and open version](https://research.getadri.ai) where the results are validated against the 18 million standard objects in ECC 6.0 EHP 7 and 27 million standard objects in S/4HANA 2023.
+## Installed Components
 
-### Installed Components
+View the installed components in the connected ERP system by clicking the "eye" icon next to the system selector.
 
-You can view the installed components in the attached ERP system.
-
-import useBaseUrl from '@docusaurus/useBaseUrl';
-
-<figure style={{ textAlign: 'center' }}>
+<figure>
   <img src={useBaseUrl('/img/installed.png')} alt="Installed Components in ECC 6.0 EHP 7 system" />
-  <figcaption>Installed Components in ECC 6.0 EHP 7 system</figcaption>
+  <figcaption style={{textAlign: "center", fontStyle: "italic"}}>Installed Components in ECC 6.0 EHP 7 system</figcaption>
 </figure>
 
-You may search the components in the attached system using the SAP Research Agent or by writing SQL-like queries (using ChromaSQL). More on ChromaSQL [here](search-index.mdx).
+Search components using the SAP Research Agent or by writing [ChromaSQL queries](use-cases/chromasql-search) directly.
 
 :::info
 Have any other questions? Check our [FAQs](../faqs.md).

@@ -1,6 +1,8 @@
 ---
-sidebar_position: 5
+sidebar_position: 4
 ---
+
+import {ADRI_URLS} from '@site/src/constants/urls';
 
 # Frequently Asked Questions (FAQs)
 
@@ -27,31 +29,24 @@ The user base is geographically diverse with three main pockets: United States, 
 
 ## How does SAP Research Agent work?
 
-Details [here](./research-agent/research-intro.mdx#how-does-sap-research-agent-work)
+Details [here](./research-agent/research-intro.mdx).
 
 ## Which models are being used?
 
-Details [here](./research-agent/research-intro.mdx#which-models-are-being-used)
+Details [here](./research-agent/capabilities/models.md).
 
 ## What are the usage limits?
 
-Before signup, a user gets 50,000 free tokens.
-
-After signup, they get another 200,000 free tokens.
-
-Once you runout of these free tokens, you should upgrade to the Enterprise Plan.
-
-:::note
-For Enterprise Plan, contact us at [founders@getadri.ai](mailto:founders@getadri.ai)
-:::
+The usage limits for all the tiers are mentioned on the <a href={ADRI_URLS.pricing}>Pricing Page</a>.
 
 ## What is the difference between all the tiers?
 
-| Category             | Non signed up      | Free plan           | Enterprise |
-| -------------------- | ------------------ | ------------------- | ---------- |
-| Tokens               | 50,000 free tokens | 200,000 free tokens | Custom     |
-| Conversation History | Not saved          | Saved               | Saved      |
+Please visit the <a href={ADRI_URLS.pricing}>Pricing Page</a>.
 
 :::note
-For Enterprise Plan, contact us at [founders@getadri.ai](mailto:founders@getadri.ai)
+For Enterprise Plan, contact us at <a href={ADRI_URLS.foundersMailto}>{ADRI_URLS.foundersEmail}</a>
 :::
+
+## Have Any Other Questions?
+
+Need help or want to collaborate? [Pick the channel that fits your need](contact.md).

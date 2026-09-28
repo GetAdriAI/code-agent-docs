@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 5
 ---
 
-# Find SAP Objects using ChromaSQL
+# Search the Knowledge Graph Directly
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
@@ -13,13 +13,19 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
   />
 </figure>
 
-You can search standard SAP objects in the chosen ERP system using either of these methods:
+Query the SAP knowledge graph directly using ChromaSQL—without going through the Research Agent. This approach gives you precise control over search parameters and is ideal for bulk searches or when you know exactly what you're looking for.
 
-- matching phrases (keyword search),
-- matching meaning (semantic search),
-- matching pattern (regex search)
+ChromaSQL supports three search methods:
 
-You can also apply metadata filters such as `model_name = TCode`, if you want to search transaction codes only.
+- **Keyword search**: Match exact phrases
+- **Semantic search**: Match by meaning
+- **Regex search**: Match patterns
+
+You can also apply metadata filters such as `model_name = TCode` to search transaction codes only.
+
+:::tip
+For exploratory searches where you're unsure what you need, use [Find SAP Objects](find-sap-objects.md) with the Research Agent instead.
+:::
 
 ## GUI Mode v. Code Mode
 
@@ -39,9 +45,9 @@ Below are the available standard components for an ECC 6.0 EHP 7 system.
 </figure>
 
 Refer the following pages for further details.
-- [List of objects](objects.md)
-- [Object definitions and examples](docs/glossary/model_name.md)
-- [SAP Object Relationships](docs/glossary/sap_object_relationships.md)
+- [List of objects](../capabilities/objects.md)
+- [Object definitions and examples](../../glossary/model_name.md)
+- [SAP Object Relationships](../../glossary/sap_object_relationships.md)
 
 ## Tutorial
 
@@ -76,5 +82,5 @@ This approach could save significant time when you're working with unfamiliar mo
 ## Additional Resources
 
 - **[ChromaSQL Docs](https://getadriai.github.io/chromasql/)**
-- **[How semantic search works?](../ai-concepts/semantic-search.md)**
+- **[How semantic search works?](../../ai-concepts/semantic-search.md)**
  

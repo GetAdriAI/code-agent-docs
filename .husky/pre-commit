@@ -1,0 +1,108 @@
+#!/bin/sh
+
+BROKEN_LINKS_FILE="broken-links.md"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+echo "Checking URLs in config files..."
+echo ""
+
+# Check URLs in docusaurus.config.ts
+# Skip social media URLs that block bots (linkedin.com returns 999)
+config_urls=$(grep -oE "https?://[^'\"\`]+" docusaurus.config.ts | grep -v "linkedin.com" | sort -u)
+config_check_failed=0
+
+for url in $config_urls; do
+    http_status=$(curl -s -o /dev/null -w "%{http_code}" -L --max-time 10 "$url")
+    if echo "$http_status" | grep -qE "^[23]"; then
+        printf "  ${GREEN}✓${NC} %s\n" "$url"
+    else
+        printf "  ${RED}✖${NC} %s (status: %s)\n" "$url" "$http_status"
+        config_check_failed=1
+    fi
+done
+
+echo ""
+
+if [ "$config_check_failed" -eq 1 ]; then
+    printf "${RED}❌ BROKEN URLs FOUND IN CONFIG${NC}\n"
+    echo "Please fix the broken URLs in docusaurus.config.ts before committing."
+    exit 1
+fi
+
+printf "${GREEN}✅ Config URL check passed${NC}\n"
+echo ""
+
+echo "Checking links in documentation..."
+echo ""
+
+# Run link check
+npm run check-links 2>&1 | tee /tmp/link-check-output.txt || true
+
+# Check if any broken links were found
+if grep -q "\[✖\]" /tmp/link-check-output.txt; then
+    echo ""
+    printf "${RED}❌ BROKEN LINKS FOUND${NC}\n"
+    echo "========================"
+
+    # Create the broken links report
+    {
+        echo "# Broken Links Report"
+        echo ""
+        echo "**Last checked:** $(date '+%Y-%m-%d %H:%M:%S')"
+        echo ""
+        awk '
+        /^FILE:/ {
+            if (has_broken == 1) {
+                print current_file
+                print broken_links
+                print ""
+            }
+            current_file = $0
+            has_broken = 0
+            broken_links = ""
+        }
+        /\[✖\]/ && !/→ Status:/ {
+            has_broken = 1
+            broken_links = broken_links "\n" $0
+        }
+        END {
+            if (has_broken == 1) {
+                print current_file
+                print broken_links
+                print ""
+            }
+        }
+        ' /tmp/link-check-output.txt
+    } > "$BROKEN_LINKS_FILE"
+
+    echo ""
+    printf "${YELLOW}📄 Broken links report written to: ${NC}${RED}$BROKEN_LINKS_FILE${NC}\n"
+    echo "   Open this file to see the full list of broken links."
+    echo ""
+    printf "${RED}Please fix the broken links before committing.${NC}\n"
+    echo ""
+
+    rm -f /tmp/link-check-output.txt
+    exit 1
+fi
+
+rm -f /tmp/link-check-output.txt
+
+# Clear the broken links file since no broken links were found
+> "$BROKEN_LINKS_FILE"
+
+echo ""
+printf "${GREEN}✅ Link check passed${NC}\n"
+echo ""
+
+# Run the Docusaurus build
+echo "Running build to verify internal links..."
+npm run build
+
+echo ""
+printf "${GREEN}✅ All checks passed!${NC}\n"

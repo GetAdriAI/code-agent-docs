@@ -12,6 +12,8 @@ So I asked both Opus 4.5 (the newest model) and Sonnet 4.5 (the previous model b
 
 My first impressions:
 
+<!-- truncate -->
+
 1. Table selection: Both models hallucinated incorrect tables on their first attempt. Opus 4.5 self-corrected after one prompt; Sonnet 4.5 needed two.
 
 2. Syntax errors: Both models produced syntax errors initially. Opus 4.5 fixed them after one prompt; Sonnet 4.5 took five attempts.
