@@ -1,16 +1,511 @@
 <?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://getadriai.github.io/code-agent-docs/blog</id>
+    <id>https://docs.getadri.ai/blog</id>
     <title>Adri AI Blog</title>
-    <updated>2025-11-27T00:00:00.000Z</updated>
+    <updated>2026-07-04T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://getadriai.github.io/code-agent-docs/blog"/>
+    <link rel="alternate" href="https://docs.getadri.ai/blog"/>
     <subtitle>Adri AI Blog</subtitle>
-    <icon>https://getadriai.github.io/code-agent-docs/img/favicon.ico</icon>
+    <icon>https://docs.getadri.ai/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[SAP's Shift in Terminology: From Custom Development to Extensibility]]></title>
+        <id>https://docs.getadri.ai/blog/sap/sap-shift-in-terminology</id>
+        <link href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology"/>
+        <updated>2026-07-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[A practical mapping of ECC-era SAP terminology to S/4HANA Clean Core terminology.]]></summary>
+        <content type="html"><![CDATA[<p>SAP terminology has shifted meaningfully from ECC to S/4HANA.</p>
+<p>In ECC, most consultants spoke in terms of configuration, custom development, enhancements, and modifications. In S/4HANA, especially under Clean Core, SAP uses a different organizing idea: extensibility.</p>
+<p>This is not just a vocabulary change. It reflects a change in SAP's philosophy: keep the core stable, upgrade-safe, and extended through supported mechanisms.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="sap-ecc-terminology-sap-erp--ecc-60">SAP ECC Terminology (SAP ERP / ECC 6.0)<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#sap-ecc-terminology-sap-erp--ecc-60" class="hash-link" aria-label="Direct link to SAP ECC Terminology (SAP ERP / ECC 6.0)" title="Direct link to SAP ECC Terminology (SAP ERP / ECC 6.0)" translate="no">​</a></h2>
+<p>This is the terminology most SAP consultants use.</p>
+<table><thead><tr><th style="text-align:left">Term</th><th style="text-align:left">Definition</th></tr></thead><tbody><tr><td style="text-align:left"><strong>Configuration (Customizing)</strong></td><td style="text-align:left">Adapting SAP standard behavior by maintaining configuration data (IMG/SPRO) without writing code or changing SAP standard objects.</td></tr><tr><td style="text-align:left"><strong>Custom Development</strong></td><td style="text-align:left">Customer-developed ABAP repository objects that implement business requirements not covered by standard SAP functionality.</td></tr><tr><td style="text-align:left"><strong>Enhancement</strong></td><td style="text-align:left">Adding customer-specific behavior at SAP-defined enhancement points without modifying SAP standard objects. Examples include BAdIs, customer exits, user exits, Business Transaction Events (BTEs), and enhancement spots.</td></tr><tr><td style="text-align:left"><strong>Modification</strong></td><td style="text-align:left">Directly changing SAP-delivered repository objects such as programs, classes, function modules, or dictionary objects.</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="ecc-relationship">ECC Relationship<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#ecc-relationship" class="hash-link" aria-label="Direct link to ECC Relationship" title="Direct link to ECC Relationship" translate="no">​</a></h2>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Customer-specific adaptation</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">+-- Configuration (Customizing)</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">+-- Custom Development</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Z programs</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Z reports</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Z classes</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Z tables</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Interfaces</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Forms</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Enhancements</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|       +-- BAdIs</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|       +-- Customer Exits</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|       +-- User Exits</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|       +-- BTEs</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">+-- Modification</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="sap-s4hana-clean-core-terminology">SAP S/4HANA Clean Core Terminology<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#sap-s4hana-clean-core-terminology" class="hash-link" aria-label="Direct link to SAP S/4HANA Clean Core Terminology" title="Direct link to SAP S/4HANA Clean Core Terminology" translate="no">​</a></h2>
+<p>SAP deliberately changed the vocabulary to emphasize upgrade-safe extensions.</p>
+<p>Notice that <strong>Custom Development</strong> disappears as the primary organizing concept. SAP instead talks about <strong>Extensibility</strong>.</p>
+<table><thead><tr><th style="text-align:left">Term</th><th style="text-align:left">Definition</th></tr></thead><tbody><tr><td style="text-align:left"><strong>Configuration</strong></td><td style="text-align:left">Adapting SAP standard functionality through business configuration without changing SAP source code.</td></tr><tr><td style="text-align:left"><strong>Key User Extensibility</strong></td><td style="text-align:left">Business-user extensions created using in-app tools, such as custom fields, UI adaptations, custom business logic, and forms.</td></tr><tr><td style="text-align:left"><strong>Developer Extensibility</strong></td><td style="text-align:left">Extensions implemented by developers using released APIs, extension points, and ABAP Cloud.</td></tr><tr><td style="text-align:left"><strong>Side-by-Side Extensibility</strong></td><td style="text-align:left">Extensions implemented outside the SAP S/4HANA system, typically on SAP Business Technology Platform, using APIs and events.</td></tr><tr><td style="text-align:left"><strong>Modification</strong></td><td style="text-align:left">Direct changes to SAP-delivered objects. Strongly discouraged under the Clean Core strategy.</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="s4hana-relationship">S/4HANA Relationship<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#s4hana-relationship" class="hash-link" aria-label="Direct link to S/4HANA Relationship" title="Direct link to S/4HANA Relationship" translate="no">​</a></h2>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token plain">Customer-specific adaptation</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">+-- Configuration</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">+-- Extensibility</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Key User Extensibility</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Developer Extensibility</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|   +-- Side-by-Side Extensibility</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">|</span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">+-- Modification</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="mapping-between-ecc-and-s4hana">Mapping Between ECC and S/4HANA<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#mapping-between-ecc-and-s4hana" class="hash-link" aria-label="Direct link to Mapping Between ECC and S/4HANA" title="Direct link to Mapping Between ECC and S/4HANA" translate="no">​</a></h2>
+<table><thead><tr><th style="text-align:left">ECC terminology</th><th style="text-align:left">S/4HANA terminology</th><th style="text-align:left">Relationship</th></tr></thead><tbody><tr><td style="text-align:left">Configuration (Customizing)</td><td style="text-align:left">Configuration</td><td style="text-align:left">Equivalent</td></tr><tr><td style="text-align:left">Custom Development</td><td style="text-align:left">Developer Extensibility</td><td style="text-align:left">Similar intent, but Developer Extensibility is narrower because it requires SAP-supported extension mechanisms and released APIs.</td></tr><tr><td style="text-align:left">Enhancements</td><td style="text-align:left">Developer Extensibility</td><td style="text-align:left">BAdIs and other supported enhancement implementations fit naturally here.</td></tr><tr><td style="text-align:left">Z Programs</td><td style="text-align:left">Developer Extensibility, only if compliant with ABAP Cloud and released APIs. Otherwise, legacy custom development.</td><td style="text-align:left">Not a one-to-one mapping.</td></tr><tr><td style="text-align:left">Customer Exits</td><td style="text-align:left">Developer Extensibility (legacy)</td><td style="text-align:left">Many remain supported for compatibility but are legacy techniques.</td></tr><tr><td style="text-align:left">Modifications</td><td style="text-align:left">Modifications</td><td style="text-align:left">Equivalent</td></tr></tbody></table>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-biggest-conceptual-shift">The Biggest Conceptual Shift<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#the-biggest-conceptual-shift" class="hash-link" aria-label="Direct link to The Biggest Conceptual Shift" title="Direct link to The Biggest Conceptual Shift" translate="no">​</a></h2>
+<p>The change is not just terminology. It reflects a change in SAP's philosophy:</p>
+<ul>
+<li class="">ECC asks: "How do I customize SAP?"</li>
+<li class="">S/4HANA asks: "How do I extend SAP while keeping a clean core?"</li>
+</ul>
+<p>That is why "custom development" is no longer the umbrella term in SAP's modern documentation. The umbrella term is <strong>Extensibility</strong>, with <strong>Key User Extensibility</strong>, <strong>Developer Extensibility</strong>, and <strong>Side-by-Side Extensibility</strong> as its primary categories.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="sap-references">SAP References<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#sap-references" class="hash-link" aria-label="Direct link to SAP References" title="Direct link to SAP References" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="core-extensibility-documentation">Core Extensibility Documentation<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#core-extensibility-documentation" class="hash-link" aria-label="Direct link to Core Extensibility Documentation" title="Direct link to Core Extensibility Documentation" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://help.sap.com/docs/SAP_S4HANA_CLOUD/32da8359c8ee4e8b8e8c5e15cacba5aa/c9cf3615cc5f4f71ae29c39d08848a96.html" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: Developer Extensibility (SAP S/4HANA Cloud Public Edition)</a></li>
+<li class=""><a href="https://help.sap.com/docs/btp/btp-developers-guide/understanding-available-technology" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: Understanding Available Technology</a></li>
+<li class=""><a href="https://help.sap.com/docs/abap-cloud/abap-rap/enabling-standard-behavior-extensions" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: Enabling Standard Behavior Extensions</a></li>
+<li class=""><a href="https://help.sap.com/docs/SAP_S4HANA_CLOUD/6aa39f1ac05441e5a23f484f31e477e7/5a0693aa21b9428d846db3a284262802.html" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: About Namespaces</a></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="clean-core">Clean Core<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#clean-core" class="hash-link" aria-label="Direct link to Clean Core" title="Direct link to Clean Core" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://help.sap.com/docs/cloud-alm/applicationhelp/extensibility" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: Extensibility (SAP Cloud ALM)</a></li>
+<li class=""><a href="https://help.sap.com/docs/build-process-automation/sap-build-process-automation/clean-core" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: Clean Core</a></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-user-extensibility">Key User Extensibility<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#key-user-extensibility" class="hash-link" aria-label="Direct link to Key User Extensibility" title="Direct link to Key User Extensibility" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://help.sap.com/docs/SAP_S4HANA_CLOUD/0f69f8fb28ac4bf48d2b57b9637e81fa/4753b6c425214774be2699827b7b5cd8.html" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: ATC Checks for Key User Extensibility Objects</a></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="abap-cloud-and-classic-abap">ABAP Cloud and Classic ABAP<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#abap-cloud-and-classic-abap" class="hash-link" aria-label="Direct link to ABAP Cloud and Classic ABAP" title="Direct link to ABAP Cloud and Classic ABAP" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://help.sap.com/docs/abap-cross-product/abap-resource-overview/abap-content-overview" target="_blank" rel="noopener noreferrer" class="">SAP Help Portal: ABAP Resource Center</a></li>
+</ul>
+<p>The ABAP Resource Center includes whitepapers and videos such as:</p>
+<ol>
+<li class="">Extend SAP S/4HANA in the cloud and on premise with ABAP-based extensions</li>
+<li class="">Classic ABAP to ABAP Cloud</li>
+<li class="">ABAP Cloud for Classic ABAP Developers</li>
+</ol>
+<p>These are some of the most useful SAP references for understanding the transition from the ECC-era terminology "Custom Development" to the S/4HANA Clean Core terminology "Developer Extensibility", "Key User Extensibility", and "Side-by-Side Extensibility".</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="sap-learning-and-sap-community">SAP Learning and SAP Community<a href="https://docs.getadri.ai/blog/sap/sap-shift-in-terminology#sap-learning-and-sap-community" class="hash-link" aria-label="Direct link to SAP Learning and SAP Community" title="Direct link to SAP Learning and SAP Community" translate="no">​</a></h3>
+<ul>
+<li class=""><a href="https://learning.sap.com/" target="_blank" rel="noopener noreferrer" class="">SAP Learning</a></li>
+<li class=""><a href="https://community.sap.com/" target="_blank" rel="noopener noreferrer" class="">SAP Community</a></li>
+</ul>]]></content>
+        <author>
+            <name>Shyam Swaroop</name>
+            <uri>https://www.linkedin.com/in/shyamswaroop/</uri>
+        </author>
+        <category label="SAP" term="SAP"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Executives Should Care About Context Instrumentation]]></title>
+        <id>https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation</id>
+        <link href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation"/>
+        <updated>2026-04-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The business impact of context instrumentation in SAP: speed, cost, and scalability.]]></summary>
+        <content type="html"><![CDATA[<p>AI in SAP is often discussed in technical terms, but the real story is business impact.
+This is about speed, cost, and scalability.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="from-months-to-days">From months to days<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#from-months-to-days" class="hash-link" aria-label="Direct link to From months to days" title="Direct link to From months to days" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="integrations">Integrations<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#integrations" class="hash-link" aria-label="Direct link to Integrations" title="Direct link to Integrations" translate="no">​</a></h3>
+<ul>
+<li class="">Bank and logistics integrations<!-- -->
+<ul>
+<li class="">Before: months</li>
+<li class="">Now: around 1 day</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="regulatory-changes">Regulatory changes<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#regulatory-changes" class="hash-link" aria-label="Direct link to Regulatory changes" title="Direct link to Regulatory changes" translate="no">​</a></h3>
+<ul>
+<li class="">E-invoicing and compliance updates<!-- -->
+<ul>
+<li class="">Before: months</li>
+<li class="">Now: around 1 day</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="operational-automation">Operational automation<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#operational-automation" class="hash-link" aria-label="Direct link to Operational automation" title="Direct link to Operational automation" translate="no">​</a></h3>
+<ul>
+<li class="">Routine workflows<!-- -->
+<ul>
+<li class="">Before: around 1 week</li>
+<li class="">Now: around 1 day</li>
+</ul>
+</li>
+</ul>
+<p>This is not small optimization. This is cycle-time collapse.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="path-to-roi">Path to ROI<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#path-to-roi" class="hash-link" aria-label="Direct link to Path to ROI" title="Direct link to Path to ROI" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="month-1-about-25-efficiency-gain">Month 1: about 25% efficiency gain<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#month-1-about-25-efficiency-gain" class="hash-link" aria-label="Direct link to Month 1: about 25% efficiency gain" title="Direct link to Month 1: about 25% efficiency gain" translate="no">​</a></h3>
+<ul>
+<li class="">Faster debugging</li>
+<li class="">Early automation wins</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="month-3-about-50-efficiency-gain">Month 3: about 50% efficiency gain<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#month-3-about-50-efficiency-gain" class="hash-link" aria-label="Direct link to Month 3: about 50% efficiency gain" title="Direct link to Month 3: about 50% efficiency gain" translate="no">​</a></h3>
+<ul>
+<li class="">Larger features delivered faster</li>
+<li class="">Increased confidence in change delivery</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="month-6-about-80-efficiency-gain">Month 6: about 80% efficiency gain<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#month-6-about-80-efficiency-gain" class="hash-link" aria-label="Direct link to Month 6: about 80% efficiency gain" title="Direct link to Month 6: about 80% efficiency gain" translate="no">​</a></h3>
+<ul>
+<li class="">End-to-end workflow acceleration</li>
+<li class="">Agent supports build, test, and documentation</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="year-1-outcome">Year 1 outcome<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#year-1-outcome" class="hash-link" aria-label="Direct link to Year 1 outcome" title="Direct link to Year 1 outcome" translate="no">​</a></h3>
+<p>With the same team size, organizations can deliver significantly more applications.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="strategic-value">Strategic value<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#strategic-value" class="hash-link" aria-label="Direct link to Strategic value" title="Direct link to Strategic value" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="faster-automation">Faster automation<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#faster-automation" class="hash-link" aria-label="Direct link to Faster automation" title="Direct link to Faster automation" translate="no">​</a></h3>
+<p>Complex processes become continuously improvable.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="faster-application-delivery">Faster application delivery<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#faster-application-delivery" class="hash-link" aria-label="Direct link to Faster application delivery" title="Direct link to Faster application delivery" translate="no">​</a></h3>
+<p>Backlogs shrink and innovation speeds up.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="built-in-quality">Built-in quality<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#built-in-quality" class="hash-link" aria-label="Direct link to Built-in quality" title="Direct link to Built-in quality" translate="no">​</a></h3>
+<p>Quality improves through repeatable checks and stronger test discipline.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="cost-reduction">Cost reduction<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#cost-reduction" class="hash-link" aria-label="Direct link to Cost reduction" title="Direct link to Cost reduction" translate="no">​</a></h3>
+<p>Teams can reduce SaaS dependency and build more capabilities internally at lower cost.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="executive-takeaway">Executive takeaway<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#executive-takeaway" class="hash-link" aria-label="Direct link to Executive takeaway" title="Direct link to Executive takeaway" translate="no">​</a></h2>
+<p>This is not only a developer productivity tool.
+It is a business transformation engine that improves time-to-market, quality, and agility.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="final-thought">Final thought<a href="https://docs.getadri.ai/blog/genai/executive-impact-context-instrumentation#final-thought" class="hash-link" aria-label="Direct link to Final thought" title="Direct link to Final thought" translate="no">​</a></h2>
+<p>Most transformation initiatives promise speed.
+Few truly remove bottlenecks.</p>
+<p>Context instrumentation does exactly that.</p>
+<p>Once this shift happens, the question is no longer "Can we build this?"
+It becomes:</p>
+<blockquote>
+<p>What should we build next?</p>
+</blockquote>]]></content>
+        <author>
+            <name>Shyam Swaroop</name>
+            <uri>https://www.linkedin.com/in/shyamswaroop/</uri>
+        </author>
+        <category label="GenAI" term="GenAI"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Return of Simple Prompting in SAP]]></title>
+        <id>https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation</id>
+        <link href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation"/>
+        <updated>2026-04-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Why SAP teams are moving beyond prompt engineering toward context instrumentation.]]></summary>
+        <content type="html"><![CDATA[<p>For the past few years, AI adoption in enterprises has been driven by one idea: write better prompts.
+In SAP environments, that phase is ending. We are entering a new paradigm: context instrumentation, where systems are designed so agents can build context and take action autonomously.</p>
+<p>And interestingly, users are returning to simple prompting.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-evolution">The evolution<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#the-evolution" class="hash-link" aria-label="Direct link to The evolution" title="Direct link to The evolution" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-simple-prompting">1. Simple prompting<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#1-simple-prompting" class="hash-link" aria-label="Direct link to 1. Simple prompting" title="Direct link to 1. Simple prompting" translate="no">​</a></h3>
+<p>At the beginning, users asked things like:</p>
+<ul>
+<li class="">"Write an ABAP report"</li>
+<li class="">"Explain this dump"</li>
+</ul>
+<p>Results were inconsistent because the model had no awareness of:</p>
+<ul>
+<li class="">your SAP system</li>
+<li class="">your configurations</li>
+<li class="">your custom logic</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-prompt-engineering">2. Prompt engineering<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#2-prompt-engineering" class="hash-link" aria-label="Direct link to 2. Prompt engineering" title="Direct link to 2. Prompt engineering" translate="no">​</a></h3>
+<p>Teams improved how they asked: better structure, clearer constraints, and examples.
+This helped, but only up to a limit.</p>
+<p>The model still lacked real context.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-context-engineering">3. Context engineering<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#3-context-engineering" class="hash-link" aria-label="Direct link to 3. Context engineering" title="Direct link to 3. Context engineering" translate="no">​</a></h3>
+<p>Teams then started injecting:</p>
+<ul>
+<li class="">documentation</li>
+<li class="">schemas</li>
+<li class="">business rules</li>
+</ul>
+<p>Now the model had context, but it was usually:</p>
+<ul>
+<li class="">static</li>
+<li class="">manually curated</li>
+<li class="">incomplete</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-context-instrumentation">4. Context instrumentation<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#4-context-instrumentation" class="hash-link" aria-label="Direct link to 4. Context instrumentation" title="Direct link to 4. Context instrumentation" translate="no">​</a></h3>
+<p>Instead of feeding all context manually, we enable the agent to build context itself.</p>
+<p>In SAP, this means the agent can:</p>
+<ul>
+<li class="">read and write ABAP</li>
+<li class="">query tables</li>
+<li class="">analyze runtime logs and dumps</li>
+<li class="">trace execution paths</li>
+<li class="">generate artifacts (for example forms)</li>
+<li class="">execute controlled changes</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-this-looks-like">What this looks like<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#what-this-looks-like" class="hash-link" aria-label="Direct link to What this looks like" title="Direct link to What this looks like" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="example-invoice-failure">Example: invoice failure<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#example-invoice-failure" class="hash-link" aria-label="Direct link to Example: invoice failure" title="Direct link to Example: invoice failure" translate="no">​</a></h3>
+<p>Traditional approach:</p>
+<ul>
+<li class="">use ST22 for dump analysis</li>
+<li class="">jump into SE80</li>
+<li class="">trace logic manually</li>
+</ul>
+<p>With an agent, a user can ask:</p>
+<blockquote>
+<p>"Why did this invoice fail to post?"</p>
+</blockquote>
+<p>The agent can then retrieve logs, trace execution, inspect dependencies, map to the billing process, and explain root cause.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-hard-problem-meaning">The hard problem: meaning<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#the-hard-problem-meaning" class="hash-link" aria-label="Direct link to The hard problem: meaning" title="Direct link to The hard problem: meaning" translate="no">​</a></h2>
+<p>SAP systems are complex: custom Z programs, implicit logic, and configuration-driven behavior.
+So the real challenge is not only "Can the agent act?" but also "Can the agent act correctly?"</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="our-breakthrough-code-to-process-mapping">Our breakthrough: code-to-process mapping<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#our-breakthrough-code-to-process-mapping" class="hash-link" aria-label="Direct link to Our breakthrough: code-to-process mapping" title="Direct link to Our breakthrough: code-to-process mapping" translate="no">​</a></h2>
+<p>A key layer is mapping every code artifact and configuration to a business process.</p>
+<p>When the agent encounters code, it:</p>
+<ol>
+<li class="">reads the source</li>
+<li class="">analyzes dependencies</li>
+<li class="">traverses execution paths</li>
+<li class="">maps to business processes such as Order-to-Cash, Procure-to-Pay, and Record-to-Report</li>
+<li class="">generates living documentation</li>
+</ol>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-this-unlocks">What this unlocks<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#what-this-unlocks" class="hash-link" aria-label="Direct link to What this unlocks" title="Direct link to What this unlocks" translate="no">​</a></h2>
+<p>When a user asks "Why did this invoice fail?", the agent can reason with process context, system logic, and expected behavior.</p>
+<p>This is no longer basic debugging. This is business-aware reasoning.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-new-roles">The new roles<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#the-new-roles" class="hash-link" aria-label="Direct link to The new roles" title="Direct link to The new roles" translate="no">​</a></h2>
+<ul>
+<li class="">Enterprise Architect: designs the capability surface</li>
+<li class="">Agent: builds context and executes</li>
+<li class="">SAP system: becomes instrumented</li>
+<li class="">User: returns to simple prompting</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="final-thought">Final thought<a href="https://docs.getadri.ai/blog/genai/simple-prompting-context-instrumentation#final-thought" class="hash-link" aria-label="Direct link to Final thought" title="Direct link to Final thought" translate="no">​</a></h2>
+<p>The shift is clear:</p>
+<p>Prompt Engineering -&gt; Context Engineering -&gt; Context Instrumentation.</p>
+<p>The core question is no longer "How do we write better prompts?"
+It becomes:</p>
+<blockquote>
+<p>How do we make SAP systems understandable and operable by agents?</p>
+</blockquote>]]></content>
+        <author>
+            <name>Shyam Swaroop</name>
+            <uri>https://www.linkedin.com/in/shyamswaroop/</uri>
+        </author>
+        <category label="GenAI" term="GenAI"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why ChatGPT Fails at Finding SAP APIs]]></title>
+        <id>https://docs.getadri.ai/blog/research-agent/api-hub</id>
+        <link href="https://docs.getadri.ai/blog/research-agent/api-hub"/>
+        <updated>2026-02-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[If you're building CAP or RAP applications, you've probably asked ChatGPT to find APIs in the SAP Business Accelerator Hub.]]></summary>
+        <content type="html"><![CDATA[<p>If you're building CAP or RAP applications, you've probably asked ChatGPT to find APIs in the SAP Business Accelerator Hub.</p>
+<p>I tested ChatGPT with a straightforward request and found three distinct failure patterns that make general-purpose LLMs problematic for SAP API discovery.</p>
+<figure><img src="https://docs.getadri.ai/img/chatgpt.png" alt="How ChatGPT finds incorrect SAP APIs"><figcaption style="text-align:center;font-style:italic">How ChatGPT finds incorrect SAP APIs</figcaption></figure>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-test">The Test<a href="https://docs.getadri.ai/blog/research-agent/api-hub#the-test" class="hash-link" aria-label="Direct link to The Test" title="Direct link to The Test" translate="no">​</a></h2>
+<p>I gave ChatGPT a simple prompt:</p>
+<blockquote>
+<p>"List all the endpoints from Maintenance of Lookup Table Data from SAP Business Accelerator Hub"</p>
+</blockquote>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-three-failure-patterns">The Three Failure Patterns<a href="https://docs.getadri.ai/blog/research-agent/api-hub#the-three-failure-patterns" class="hash-link" aria-label="Direct link to The Three Failure Patterns" title="Direct link to The Three Failure Patterns" translate="no">​</a></h2>
+<p><strong>1. Incomplete Results</strong></p>
+<p>ChatGPT found <strong>5 out of 14 available APIs</strong>. That's a 64% miss rate.</p>
+<figure><img src="https://docs.getadri.ai/img/failure-1.png" alt="Incomplete Results"><figcaption style="text-align:center;font-style:italic">Incomplete Results</figcaption></figure>
+<p>For developers, incomplete API discovery means incomplete implementations. You build against what you think exists, only to discover later that there were better endpoints available—or worse, you rebuild functionality that already existed.</p>
+<p><strong>2. Non-existent API endpoints</strong></p>
+<p>The endpoints ChatGPT listed? <strong>They don't exist.</strong></p>
+<figure><img src="https://docs.getadri.ai/img/failure-2.png" alt="Non-existent API endpoints"><figcaption style="text-align:center;font-style:italic">Non-existent API endpoints</figcaption></figure>
+<p>This is the most dangerous failure mode. The response looks authoritative—proper OData formatting, reasonable naming conventions, correct HTTP verbs. But none of these endpoints will work when you actually try to call them.</p>
+<p><strong>3. Correct Source, Wrong Data</strong></p>
+<p>Even when ChatGPT identified the right API package, it still returned incorrect endpoint details. Finding the right haystack doesn't help if you're pulling out the wrong needles.</p>
+<figure><img src="https://docs.getadri.ai/img/failure-3.png" alt="Citation Mess"><figcaption style="text-align:center;font-style:italic">Correct Source, Wrong Data</figcaption></figure>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-general-purpose-llms-struggle-here">Why General-Purpose LLMs Struggle Here<a href="https://docs.getadri.ai/blog/research-agent/api-hub#why-general-purpose-llms-struggle-here" class="hash-link" aria-label="Direct link to Why General-Purpose LLMs Struggle Here" title="Direct link to Why General-Purpose LLMs Struggle Here" translate="no">​</a></h2>
+<p>The SAP Business Accelerator Hub contains more than <strong>40,000 artifacts</strong>.</p>
+<p>If we look at five key products, this is what the distribution looks like.</p>
+<figure><img src="https://docs.getadri.ai/img/adri-artifacts.png" alt="Adri Artifacts"><figcaption style="text-align:center;font-style:italic">Adri Artifacts</figcaption></figure>
+<p>General-purpose LLMs have seen some of this in training data, but:</p>
+<ul>
+<li class="">API specifications change frequently</li>
+<li class="">Training data captures snapshots, not current state</li>
+<li class="">The sheer volume means coverage is spotty at best</li>
+<li class="">Popular APIs get better coverage; niche ones get hallucinated</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-actually-works">What Actually Works<a href="https://docs.getadri.ai/blog/research-agent/api-hub#what-actually-works" class="hash-link" aria-label="Direct link to What Actually Works" title="Direct link to What Actually Works" translate="no">​</a></h2>
+<p>Purpose-built agents that <strong>connect directly to the source</strong> solve this problem. Instead of guessing from training data, they query the actual SAP Business Accelerator Hub.</p>
+<p>This is why Adri connects with the SAP Business Accelerator Hub. When you ask about an API, you get answers grounded in what actually exists.</p>
+<p>Here's the same query through Adri's Research Agent:</p>
+<figure><img src="https://docs.getadri.ai/img/adri-results.png" alt="Results by Adri Agent"><figcaption style="text-align:center;font-style:italic">Results by Adri Agent</figcaption></figure>
+<p>The difference:</p>
+<ul>
+<li class=""><strong>Complete</strong>: Discovered 2 packages and all 14 endpoints</li>
+<li class=""><strong>Correct</strong>: Every endpoint actually exists and works</li>
+<li class=""><strong>Cited</strong>: Links back to the source for verification</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="how-to-use">How to use?<a href="https://docs.getadri.ai/blog/research-agent/api-hub#how-to-use" class="hash-link" aria-label="Direct link to How to use?" title="Direct link to How to use?" translate="no">​</a></h2>
+<p>Head over to <a href="https://research.getadri.ai/sessions" target="_blank" rel="noopener noreferrer" class="">SAP Research Agent by Adri AI</a>. From the skill selector dropdown, choose <strong>SAP Business Accelerator Hub</strong> — this connects the agent directly to the Hub so every response is grounded in real, up-to-date API data.</p>
+<p>Once selected, simply type your query — for example, <em>"List all the endpoints from Maintenance of Lookup Table Data"</em> — and the agent will fetch the results straight from the source.</p>
+<figure><img src="https://docs.getadri.ai/img/how-to-use.png" alt="Results by Adri Agent"><figcaption style="text-align:center;font-style:italic">How to use</figcaption></figure>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-takeaway">The Takeaway<a href="https://docs.getadri.ai/blog/research-agent/api-hub#the-takeaway" class="hash-link" aria-label="Direct link to The Takeaway" title="Direct link to The Takeaway" translate="no">​</a></h2>
+<p><strong>Context beats memorized patterns. Every time.</strong></p>
+<p>If you're building CAP/RAP applications, choose an AI agent that connects to your SAP infrastructure—not one that guesses what might be there.</p>]]></content>
+        <author>
+            <name>Darshita Chaturvedi</name>
+            <uri>https://www.linkedin.com/in/darshitac/</uri>
+        </author>
+        <author>
+            <name>Shyam Swaroop</name>
+            <uri>https://www.linkedin.com/in/shyamswaroop/</uri>
+        </author>
+        <category label="Research Agent" term="Research Agent"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Research Notes: Building a high-performant ABAP coding agent]]></title>
+        <id>https://docs.getadri.ai/blog/code-agent/abap-problems</id>
+        <link href="https://docs.getadri.ai/blog/code-agent/abap-problems"/>
+        <updated>2026-01-01T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[I have been using the most powerful coding models for ABAP coding for quite some time now. It's painful, but I persevere because this is how I learn the shortcomings of the models to build a coding agent that actually works.]]></summary>
+        <content type="html"><![CDATA[<p>I have been using the most powerful coding models for ABAP coding for quite some time now. It's painful, but I persevere because this is how I learn the shortcomings of the models to build a coding agent that actually works.</p>
+<figure><img src="https://docs.getadri.ai/img/code-agent-error-log.png" alt="ABAP error log"><figcaption style="text-align:center;font-style:italic">ABAP error log example</figcaption></figure>
+<p>Here's what months of research have taught me, in just a few sentences.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="two-strategies-for-building-a-better-agent">Two Strategies for Building a Better Agent<a href="https://docs.getadri.ai/blog/code-agent/abap-problems#two-strategies-for-building-a-better-agent" class="hash-link" aria-label="Direct link to Two Strategies for Building a Better Agent" title="Direct link to Two Strategies for Building a Better Agent" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="proactive-prevent-errors-before-they-happen">Proactive: Prevent Errors Before They Happen<a href="https://docs.getadri.ai/blog/code-agent/abap-problems#proactive-prevent-errors-before-they-happen" class="hash-link" aria-label="Direct link to Proactive: Prevent Errors Before They Happen" title="Direct link to Proactive: Prevent Errors Before They Happen" translate="no">​</a></h3>
+<p>Can we stop an agent from making the same mistake twice?</p>
+<p>The idea is appealing. If the model messed up once, teach it not to do it again. But so far, the results have been disappointing. Models don't retain corrections the way you'd hope.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="reactive-recover-after-the-error">Reactive: Recover After the Error<a href="https://docs.getadri.ai/blog/code-agent/abap-problems#reactive-recover-after-the-error" class="hash-link" aria-label="Direct link to Reactive: Recover After the Error" title="Direct link to Reactive: Recover After the Error" translate="no">​</a></h3>
+<p>Can we ensure that when an error does happen, the agent fixes it itself?</p>
+<p>This approach has shown much better results. I'm hopeful we can make significant improvements here.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="creating-a-synthetic-dataset">Creating a Synthetic Dataset<a href="https://docs.getadri.ai/blog/code-agent/abap-problems#creating-a-synthetic-dataset" class="hash-link" aria-label="Direct link to Creating a Synthetic Dataset" title="Direct link to Creating a Synthetic Dataset" translate="no">​</a></h2>
+<p>When a model makes a mistake, I ask it to document what went wrong and what fixed it. The prompt looks something like this:</p>
+<blockquote>
+<p>"Throughout our conversation, you implemented wrong syntax many times and repeated some mistakes as well. Document all the mistakes that you did such that when I provide this list of mistakes next time, you don't repeat these mistakes..."</p>
+</blockquote>
+<p>This generates a dataset of errors and their corrections. But it raises questions: How many fixed code samples should I generate for each error? Does quantity affect the recovery strategy? These are still open problems.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="looming-problems">Looming Problems<a href="https://docs.getadri.ai/blog/code-agent/abap-problems#looming-problems" class="hash-link" aria-label="Direct link to Looming Problems" title="Direct link to Looming Problems" translate="no">​</a></h2>
+<p><strong>Scaling</strong> — How do we capture a meaningful percentage of the errors a model makes?</p>
+<p><strong>Cost</strong> — How much money do we spend on capturing these errors and building synthetic datasets?</p>
+<p><strong>Regression</strong> — Every model makes different mistakes. The errors I've catalogued for one model may be completely irrelevant for the next release. It's a moving target.</p>
+<p>We are in the final few weeks before we show the world how we are solving these problems in our Code Agent. Very excited and also very nervous.</p>]]></content>
+        <author>
+            <name>Darshita Chaturvedi</name>
+            <uri>https://www.linkedin.com/in/darshitac/</uri>
+        </author>
+        <category label="Code Agent" term="Code Agent"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LLMs Don't Hallucinate ABAP. They Overgeneralize It.]]></title>
+        <id>https://docs.getadri.ai/blog/code-agent/llm-and-abap</id>
+        <link href="https://docs.getadri.ai/blog/code-agent/llm-and-abap"/>
+        <updated>2025-12-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[We spent months studying the patterns in mistakes LLMs make while writing ABAP code. While many teams frame the risks in terms of "hallucination", we've learned that hallucination is not the core issue in ABAP.]]></summary>
+        <content type="html"><![CDATA[<p>We spent months studying the patterns in mistakes LLMs make while writing ABAP code. While many teams frame the risks in terms of "hallucination", we've learned that hallucination is <strong>not</strong> the core issue in ABAP.</p>
+<p>The real problems stem from <strong>how LLMs generalize programming patterns</strong> and how <strong>ABAP fundamentally differs from mainstream programming languages</strong>.</p>
+<figure><img src="https://docs.getadri.ai/img/how-llms-fail-in-abap.png" alt="How LLMs fail in ABAP"><figcaption style="text-align:center;font-style:italic">How LLMs fail in ABAP</figcaption></figure>
+<p>This blog breaks down:</p>
+<ul>
+<li class="">the structural mismatches between ABAP and the broader coding corpus models are trained on</li>
+<li class="">the systematic mistakes that appear again and again</li>
+<li class="">why these are <em>not bugs</em>, but consequences of model training behavior</li>
+<li class="">what ABAP teams should do in practice</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-core-thesis">The Core Thesis<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#the-core-thesis" class="hash-link" aria-label="Direct link to The Core Thesis" title="Direct link to The Core Thesis" translate="no">​</a></h2>
+<p>LLMs don't primarily fail in ABAP because they hallucinate. They fail because they default to mainstream programming patterns.</p>
+<p>When an LLM generates code, it produces what it's seen most often in training. That's overwhelmingly Python, JavaScript, Java, and standard SQL. So when asked to write ABAP, the model reaches for familiar patterns:</p>
+<ul>
+<li class="">dynamic string handling instead of fixed-length CHAR types</li>
+<li class="">T-SQL or ANSI SQL syntax instead of OpenSQL</li>
+<li class="">invented function names that follow common naming conventions</li>
+</ul>
+<p>The problem isn't that LLMs lack ABAP training data. It's that they've seen far more of everything else.</p>
+<p>When patterns conflict, the majority wins and that is why these are not random errors. They're the most probable outputs given what the model has seen, and they just happen to be wrong for ABAP.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-three-failure-patterns">The Three Failure Patterns<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#the-three-failure-patterns" class="hash-link" aria-label="Direct link to The Three Failure Patterns" title="Direct link to The Three Failure Patterns" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-type-system-misunderstanding">1. Type System Misunderstanding<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#1-type-system-misunderstanding" class="hash-link" aria-label="Direct link to 1. Type System Misunderstanding" title="Direct link to 1. Type System Misunderstanding" translate="no">​</a></h3>
+<p>ABAP enforces strong, static typing with meaningful distinctions between:</p>
+<ul>
+<li class=""><span class="adri-inline-code-with-copy"><code>CHAR</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span> (fixed length)</li>
+<li class=""><span class="adri-inline-code-with-copy"><code>STRING</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span> (variable length)</li>
+<li class="">domain-bound DDIC types (e.g., <span class="adri-inline-code-with-copy"><code>KUNNR</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span>, <span class="adri-inline-code-with-copy"><code>MATNR</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span>)</li>
+</ul>
+<p>But LLMs routinely assume behavior from dynamic string languages, leading to:</p>
+<ul>
+<li class="">implicit conversions that don't exist</li>
+<li class="">padding inconsistencies</li>
+<li class="">boolean improvisations instead of <span class="adri-inline-code-with-copy"><code>abap_bool</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span></li>
+<li class="">generic <span class="adri-inline-code-with-copy"><code>string</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span> usage where DDIC types are required</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-opensql--standard-sql">2. OpenSQL ≠ Standard SQL<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#2-opensql--standard-sql" class="hash-link" aria-label="Direct link to 2. OpenSQL ≠ Standard SQL" title="Direct link to 2. OpenSQL ≠ Standard SQL" translate="no">​</a></h3>
+<p>OpenSQL is database-independent, SAP-portable, and syntactically constrained.</p>
+<p>And yet, LLMs frequently output:</p>
+<ul>
+<li class=""><span class="adri-inline-code-with-copy"><code>TOP 10</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span> instead of <span class="adri-inline-code-with-copy"><code>UP TO 10 ROWS</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span></li>
+<li class=""><span class="adri-inline-code-with-copy"><code>ORDER BY total_sales DESC</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span> instead of <span class="adri-inline-code-with-copy"><code>DESCENDING</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span></li>
+<li class="">ANSI or vendor-style date expressions</li>
+<li class="">unsupported analytic functions</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-object--naming-resolution-errors">3. Object &amp; Naming Resolution Errors<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#3-object--naming-resolution-errors" class="hash-link" aria-label="Direct link to 3. Object &amp; Naming Resolution Errors" title="Direct link to 3. Object &amp; Naming Resolution Errors" translate="no">​</a></h3>
+<p>ABAP behaves like an ecosystem, not just a programming language.</p>
+<p>Objects depend on:</p>
+<ul>
+<li class="">system repositories</li>
+<li class="">DDIC structures</li>
+<li class="">landscape-specific namespaces</li>
+<li class="">custom extensions (<span class="adri-inline-code-with-copy"><code>Z*</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span>, <span class="adri-inline-code-with-copy"><code>Y*</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span>)</li>
+</ul>
+<p>LLMs detect <em>patterns</em> in names and then invent plausible ones.</p>
+<p>For example:</p>
+<ul>
+<li class=""><span class="adri-inline-code-with-copy"><code>BAPI_GET_MATERIAL_DETAILS</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span> instead of <span class="adri-inline-code-with-copy"><code>BAPI_MATERIAL_GET_DETAIL</code><button type="button" class="adri-inline-code-copy-button" aria-label="Copy inline code">Copy</button></span></li>
+<li class="">fabricated interface names</li>
+<li class="">function modules that "sound right", but don't exist</li>
+</ul>
+<p>Unless the model has access to the actual system metadata, it <strong>cannot</strong> reliably resolve object identity.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-rag-alone-isnt-enough">Why RAG Alone Isn't Enough<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#why-rag-alone-isnt-enough" class="hash-link" aria-label="Direct link to Why RAG Alone Isn't Enough" title="Direct link to Why RAG Alone Isn't Enough" translate="no">​</a></h2>
+<p>RAG (retrieval-augmented generation) helps. It can ground object names, fetch documentation, and prevent the model from inventing BAPIs that don't exist.</p>
+<p>But RAG only fixes context gaps. It doesn't fix training-level biases.</p>
+<p>Even with perfect retrieval, the model will still default to the mainstream patterns described above. These are baked into the model's weights, not gaps in its context window. Retrieval can tell the model <em>what exists</em>, but it can't override <em>how the model writes code</em>.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="what-abap-teams-should-do">What ABAP Teams Should Do<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#what-abap-teams-should-do" class="hash-link" aria-label="Direct link to What ABAP Teams Should Do" title="Direct link to What ABAP Teams Should Do" translate="no">​</a></h2>
+<p>If you want useful AI coding support in ABAP:</p>
+<ul>
+<li class="">Use system-aware agents connected to SAP runtime metadata. This solves the naming resolution problem by giving the model access to what actually exists.</li>
+<li class="">Apply domain-specific fine-tuning. This shifts the model's weights toward ABAP patterns instead of mainstream defaults.</li>
+<li class="">Practice ABAP-type-aware prompting. Explicitly specify CHAR vs STRING, abap_bool, and DDIC types in your prompts.</li>
+<li class="">Validate with syntax and static analysis tools. Catch type and SQL errors before they reach production.</li>
+<li class="">Build on retrieval-first architectures. Ground object references in real documentation.</li>
+</ul>
+<p>LLMs work best as assistive tools that require grounding, constraints, and verification rather than drop-in code generators.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="final-thoughts">Final Thoughts<a href="https://docs.getadri.ai/blog/code-agent/llm-and-abap#final-thoughts" class="hash-link" aria-label="Direct link to Final Thoughts" title="Direct link to Final Thoughts" translate="no">​</a></h2>
+<p>LLMs are optimized for mainstream programming patterns. ABAP deliberately breaks from those patterns, which is why these failures are systematic, not random.</p>
+<p>Understanding that distinction is the first step toward building reliable ABAP-aware AI tooling.</p>]]></content>
+        <author>
+            <name>Darshita Chaturvedi</name>
+            <uri>https://www.linkedin.com/in/darshitac/</uri>
+        </author>
+        <author>
+            <name>Shyam Swaroop</name>
+            <uri>https://www.linkedin.com/in/shyamswaroop/</uri>
+        </author>
+        <category label="Code Agent" term="Code Agent"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Finding Standard SAP Objects Is Difficult?]]></title>
+        <id>https://docs.getadri.ai/blog/research-agent/why-it-matters</id>
+        <link href="https://docs.getadri.ai/blog/research-agent/why-it-matters"/>
+        <updated>2025-12-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Consultants struggle to find standard SAP capabilities before developing custom code for several interconnected reasons:]]></summary>
+        <content type="html"><![CDATA[<p>Consultants struggle to find standard SAP capabilities before developing custom code for several interconnected reasons:</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-sheer-volume-and-fragmentation">1. Sheer Volume and Fragmentation<a href="https://docs.getadri.ai/blog/research-agent/why-it-matters#1-sheer-volume-and-fragmentation" class="hash-link" aria-label="Direct link to 1. Sheer Volume and Fragmentation" title="Direct link to 1. Sheer Volume and Fragmentation" translate="no">​</a></h2>
+<p>SAP systems contain millions of objects (e.g. ~27M+ standard &amp; custom objects in S/4HANA alone). These are scattered across:</p>
+<ul>
+<li class="">Transaction codes, function modules, BAPIs</li>
+<li class="">Tables, views, and CDS views</li>
+<li class="">Business objects and APIs</li>
+<li class="">Configuration settings and enhancement points</li>
+</ul>
+<p>There's no single, searchable knowledge graph that shows "here's what SAP can do out of the box."</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-poor-native-search-and-documentation">2. Poor Native Search and Documentation<a href="https://docs.getadri.ai/blog/research-agent/why-it-matters#2-poor-native-search-and-documentation" class="hash-link" aria-label="Direct link to 2. Poor Native Search and Documentation" title="Direct link to 2. Poor Native Search and Documentation" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>SE37/SE80 are limited</strong>: You need to know <em>what</em> you're looking for. If you don't know a function module exists, you can't search for it effectively</li>
+<li class=""><strong>SAP Help Portal is generic</strong>: Documentation describes features conceptually but doesn't surface specific technical objects</li>
+<li class=""><strong>No semantic search</strong>: Traditional keyword searches miss relevant objects if you don't use exact SAP terminology</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-knowledge-gap-between-business-requirements-and-technical-objects">3. Knowledge Gap Between Business Requirements and Technical Objects<a href="https://docs.getadri.ai/blog/research-agent/why-it-matters#3-knowledge-gap-between-business-requirements-and-technical-objects" class="hash-link" aria-label="Direct link to 3. Knowledge Gap Between Business Requirements and Technical Objects" title="Direct link to 3. Knowledge Gap Between Business Requirements and Technical Objects" translate="no">​</a></h2>
+<p>When a business user says "we need to auto-calculate freight costs," consultants must translate that to:</p>
+<ul>
+<li class="">Is there a standard BAPI for this?</li>
+<li class="">Does pricing configuration handle it?</li>
+<li class="">Are there relevant BAdIs or user exits?</li>
+<li class="">What tables store freight data?</li>
+</ul>
+<p>This translation requires deep system knowledge that junior/mid-level consultants often lack.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-time-pressure-and-misaligned-incentives">4. Time Pressure and Misaligned Incentives<a href="https://docs.getadri.ai/blog/research-agent/why-it-matters#4-time-pressure-and-misaligned-incentives" class="hash-link" aria-label="Direct link to 4. Time Pressure and Misaligned Incentives" title="Direct link to 4. Time Pressure and Misaligned Incentives" translate="no">​</a></h2>
+<ul>
+<li class=""><strong>Research is unbudgeted risk</strong>: No time is set aside purely for research. Even if a consultant diligently searches for standards for a day and finds nothing, they're a day behind on implementation with nothing to show for it</li>
+<li class=""><strong>Visible effort bias</strong>: It's harder to prove the effort and complexity of your work when you propose a standard solution. Writing 10,000 lines of custom code is immediately recognizable; finding the right BAPI is not</li>
+<li class=""><strong>Default to custom</strong>: Many consultants default to "build custom" because it's faster than proving a standard solution exists (or doesn't) and custom code is easier to justify on timesheets</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-version-complexity">5. Version Complexity<a href="https://docs.getadri.ai/blog/research-agent/why-it-matters#5-version-complexity" class="hash-link" aria-label="Direct link to 5. Version Complexity" title="Direct link to 5. Version Complexity" translate="no">​</a></h2>
+<p>ECC 6.0 vs S/4HANA have different capabilities. A consultant might not know:</p>
+<ul>
+<li class="">CDS views in S/4HANA could replace their custom join logic</li>
+<li class="">A new RAP business object exists for their use case</li>
+<li class="">An old BAPI has been deprecated/replaced</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="why-sap-research-agent-matters">Why SAP Research Agent Matters<a href="https://docs.getadri.ai/blog/research-agent/why-it-matters#why-sap-research-agent-matters" class="hash-link" aria-label="Direct link to Why SAP Research Agent Matters" title="Direct link to Why SAP Research Agent Matters" translate="no">​</a></h2>
+<p>SAP Research Agent solves the <strong>discoverability problem</strong>. By creating a knowledge graph of ~18M+ objects for ECC and ~27M+ objects for S/4HANA in our demo sandbox — demonstrating large-scale knowledge creation and retrieval, and giving a ballpark for the minimum number of objects typically included in a knowledge graph — it makes them semantically searchable and essentially asks consultants: "Did you check if SAP already built this?" before they write code.</p>
+<div class="theme-admonition theme-admonition-info admonition_xJq3 alert alert--info"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>info</div><div class="admonitionContent_BuS1"><p>Try out SAP Research Agent here: <a href="https://research.getadri.ai/" target="_blank" rel="noopener noreferrer" class="">https://research.getadri.ai/</a></p></div></div>]]></content>
+        <author>
+            <name>Darshita Chaturvedi</name>
+            <uri>https://www.linkedin.com/in/darshitac/</uri>
+        </author>
+        <category label="Research Agent" term="Research Agent"/>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Reddit Launch]]></title>
-        <id>https://getadriai.github.io/code-agent-docs/blog/research-agent/reddit-launch</id>
-        <link href="https://getadriai.github.io/code-agent-docs/blog/research-agent/reddit-launch"/>
+        <id>https://docs.getadri.ai/blog/research-agent/reddit-launch</id>
+        <link href="https://docs.getadri.ai/blog/research-agent/reddit-launch"/>
         <updated>2025-11-27T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[We launched on Reddit and it crashed our app. 🫠]]></summary>
         <content type="html"><![CDATA[<p>We launched on Reddit and it crashed our app. 🫠</p>
@@ -40,8 +535,8 @@ It's typical startup advice, but harder to actually practice than it sounds.</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[How does Claude's newest model perform in SAP ABAP development?]]></title>
-        <id>https://getadriai.github.io/code-agent-docs/blog/genai/claude-opus</id>
-        <link href="https://getadriai.github.io/code-agent-docs/blog/genai/claude-opus"/>
+        <id>https://docs.getadri.ai/blog/genai/claude-opus</id>
+        <link href="https://docs.getadri.ai/blog/genai/claude-opus"/>
         <updated>2025-11-26T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Claude Opus 4.5 was released yesterday and is claimed to be "the best model in the world for coding," so I was curious how it performs in ABAP development.]]></summary>
         <content type="html"><![CDATA[<p>Claude Opus 4.5 was released yesterday and is claimed to be "the best model in the world for coding," so I was curious how it performs in ABAP development.</p>
@@ -70,14 +565,14 @@ It's typical startup advice, but harder to actually practice than it sounds.</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[Private beta launch]]></title>
-        <id>https://getadriai.github.io/code-agent-docs/blog/research-agent/li-pvt-beta</id>
-        <link href="https://getadriai.github.io/code-agent-docs/blog/research-agent/li-pvt-beta"/>
+        <id>https://docs.getadri.ai/blog/research-agent/li-pvt-beta</id>
+        <link href="https://docs.getadri.ai/blog/research-agent/li-pvt-beta"/>
         <updated>2025-11-24T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Yesterday, we opened up free access to our SAP Change Request agent for everyone who requested it earlier.]]></summary>
         <content type="html"><![CDATA[<p>Yesterday, we opened up free access to our SAP Change Request agent for everyone who requested it earlier.</p>
 <p>The response has been amazing! So we're expanding access limits and squashing a few bugs we found along the way.</p>
 <p>Trust me, it's pretty cool watching the agent work through your problems step by step.</p>
-<p>Here's what makes this different from ChatGPT: it doesn't just give you generic answers. It checks solutions against your actual system configuration. For this free version, we're validating against all 18 million standard objects in ECC 6.0 EHP 7.</p>
+<p>Here's what makes this different from ChatGPT: it doesn't just give you generic answers. It checks solutions against your actual system configuration. For the free version, we give access to a demo sandbox connected to our ECC and S/4HANA systems where the knowledge graph consists of ~18M+ standard &amp; custom objects for ECC and ~27M+ standard &amp; custom objects for S/4HANA — demonstrating large-scale knowledge creation and retrieval, and giving a ballpark for the minimum number of objects typically included in a knowledge graph.</p>
 <p>A few ways you can put it to work:</p>
 <ol>
 <li class="">Find standard SAP capabilities before you write custom code</li>
@@ -92,8 +587,8 @@ It's typical startup advice, but harder to actually practice than it sounds.</p>
     </entry>
     <entry>
         <title type="html"><![CDATA[ChromaSQL Early Preview]]></title>
-        <id>https://getadriai.github.io/code-agent-docs/blog/chromasql/chromasql-preview</id>
-        <link href="https://getadriai.github.io/code-agent-docs/blog/chromasql/chromasql-preview"/>
+        <id>https://docs.getadri.ai/blog/chromasql/chromasql-preview</id>
+        <link href="https://docs.getadri.ai/blog/chromasql/chromasql-preview"/>
         <updated>2025-11-10T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Excited to share an early preview of ChromaSQL, a new SQL-like language that helps ABAP developers access SAP’s tribal knowledge in a few seconds instead of wading through SE11/SE84 and stacks of notes. 🎉]]></summary>
         <content type="html"><![CDATA[<p>Excited to share an early preview of ChromaSQL, a new SQL-like language that helps ABAP developers access SAP’s tribal knowledge in a few seconds instead of wading through SE11/SE84 and stacks of notes. 🎉</p>
