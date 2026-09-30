@@ -41,6 +41,11 @@
   word-break: break-word;
 }
 
+.responsibility-table th:first-child,
+.responsibility-table td:first-child {
+  width: 20%;
+}
+
 /* Navbar button style */
 .navbar__item.navbar-cta-button {
   background-color: var(--ifm-color-primary);
